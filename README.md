@@ -16,16 +16,14 @@ The prototype has only been tested on Python3.7.  Expanding tested versions is a
 
 ## Usage
 
-To use, create a markdown document with special tags to indicate a markplates function call.  Currently the delimiter for these tags is `{{` function goes here `}}`.
+To use, create a markdown document with special tags to indicate a `markplates` function call.  Currently the delimiter for these tags is `{{` function goes here `}}`.
 
 
 
 Current functions supported are:
 
-*  `setpath("path/to/source/files")`
+*  `set_path("path/to/source/files")`
 * `import_source("source_file_name", [list of line number ranges])`
-
-(NOTE: I should obviously rename `setpath` to `set_path`)
 
 ### Line Number Ranges
 
@@ -33,7 +31,7 @@ Line number ranges allow you to specify which lines you want to include from the
 
 * 3 or "3" : an integer adds just that line from the input
 
-* "5-7" : a range adds lines between start and end includsive (so 5, 6, 7)
+* "5-7" : a range adds lines between start and end inclusive (so 5, 6, 7)
 
 * "10-$" : an unlimited range includes start line to the end of the file
 
@@ -45,9 +43,10 @@ Line number ranges allow you to specify which lines you want to include from the
 
 I'd like to add:
 
-* capturing the results of a shell command and inserting into the file
+* Capturing the results of a shell command and inserting into the file
 * ReadTheDocs documentation
-* Reasonable testing
+* Tox testing to cover several Py3 versions (Py2 support not planned at this point)
+* Pytest unit tests
 * Better examples
 * Packaging
 * Just about everything that would make this a package. :) 

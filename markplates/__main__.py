@@ -83,11 +83,3 @@ if __name__ == "__main__":
     output = process_template('simple.mdt', 'tests')
     print(output)
 
-def test_ranges():
-    lines = open('tests/testfile.py', 'r').readlines()
-    # ranges = ["2", 3, "5-6", "9-$", ]
-    ranges = ["9-$", "2", "5-6", 3, "5-6", "9-$", ]
-    output_lines = condense_ranges(lines, ranges)
-    print(output_lines)
-    output = "".join(output_lines)
-    print(output)
