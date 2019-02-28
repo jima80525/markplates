@@ -1,6 +1,5 @@
-{{ set_path("./tests") }}
-
-```python linenums=1
+{{ set_path("./examples") }}
+```python linenums="1"
 {{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
 ```
 

@@ -1,8 +1,11 @@
-# MarkPlates - A templating utility for keeping code in Markdown documents in sync.
+# MarkPlates 
 
-This is currently in the proof-of-concept stage.
+> A templating utility for keeping code in Markdown documents in sync.
+
 
 The problem I hope to solve is to simplify keeping external files up to date with markdown documents that contain them.  This happens to me frequently when an editor makes a suggestion to an article that will modify the underlying code it is quoting.  
+
+This is currently in the proof-of-concept stage.
 
 ## Installing
 
@@ -16,9 +19,15 @@ The prototype has only been tested on Python3.7.  Expanding tested versions is a
 
 ## Usage
 
+You can test out the example in this package by running:
+
+```bash
+$ python -m markplates	simple.mdt examples
+```
+
+This will process the template in `examples/simple.mdt`, filling it in with data from `examples/testfile.py`.  This demonstrates setting the path and pulling in some of the lines of a file.  
+
 To use, create a markdown document with special tags to indicate a `markplates` function call.  Currently the delimiter for these tags is `{{` function goes here `}}`.
-
-
 
 Current functions supported are:
 
@@ -39,6 +48,10 @@ Line number ranges allow you to specify which lines you want to include from the
 
 > **Note:** LINE NUMBERING STARTS AT 1!
 
+## Development Setup
+
+You'll need jinja2, tox, and pytest at this point.  Requirements.txt file to come.
+
 ## Features to Come
 
 I'd like to add:
@@ -55,3 +68,7 @@ I'd like to add:
 ## Interested?
 
 Let me know!  I'll be working on this for the next few weeks.  If you're interested in the results or would like to help out, please raise an issue and I'll be in touch!
+
+## Release History
+
+* Not yet.

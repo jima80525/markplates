@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import jinja2
 import os
+import sys
 
 
 class TemplateState():
@@ -9,18 +10,16 @@ class TemplateState():
 
     def set_path(self, path):
         self.path = path
-        return "SET PATH TO " + path
+        return ""
 
     def import_source(self, source, ranges=None):
-        print(f"IN FUNC: path: {self.path} source {source} ranges {ranges}")
         source_name = os.path.join(self.path, source)
         lines = open(source_name, 'r').readlines()
         if not ranges:
             ranges = ['2-$', ]
 
-        # JHA TODO probably need to strip off trailing \n
         lines = condense_ranges(lines, ranges)
-        return "".join(lines)
+        return "".join(lines).rstrip()
 
 
 def condense_ranges(input_lines, ranges):
@@ -62,8 +61,8 @@ def condense_ranges(input_lines, ranges):
 
 
 def process_template(template_name, source_path):
-    # alias the block start and stop strings as they conflict with dan's
-    # templating
+    # alias the block start and stop strings as they conflict with the
+    # templating on RealPython
     file_loader = jinja2.FileSystemLoader(source_path)
     env = jinja2.Environment(loader=file_loader,
                              block_start_string='&&&&',
@@ -80,6 +79,13 @@ def process_template(template_name, source_path):
 
 if __name__ == "__main__":
     # JHA TODO add command line option to get path
-    output = process_template('simple.mdt', 'tests')
+    # Also get rid of stupid need for directory.
+    # Also use path lib
+    if len(sys.argv) < 3:
+        sys.exit("Need file and directory specified")
+    template = sys.argv[1]
+    directory = sys.argv[2]
+
+    output = process_template(template, directory)
     print(output)
 
