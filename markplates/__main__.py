@@ -77,7 +77,7 @@ def process_template(template_name, source_path):
     return template.render()
 
 
-if __name__ == "__main__":
+def main():
     # JHA TODO add command line option to get path
     # Also get rid of stupid need for directory.
     # Also use path lib
@@ -89,3 +89,6 @@ if __name__ == "__main__":
     output = process_template(template, directory)
     print(output)
 
+
+if __name__ == "__main__":
+    main()
