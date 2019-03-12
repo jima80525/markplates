@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import click
 import jinja2
 import os
 import sys
@@ -77,15 +78,18 @@ def process_template(template_name, source_path):
     return template.render()
 
 
-def main():
-    # JHA TODO add command line option to get path
-    # Also get rid of stupid need for directory.
-    # Also use path lib
-    if len(sys.argv) < 3:
-        sys.exit("Need file and directory specified")
-    template = sys.argv[1]
-    directory = sys.argv[2]
+@click.command(context_settings=dict(help_option_names=['-h', '--help']))
+@click.option('-v', '--verbose', type=bool, default=False,
+              help='Verbose debuggin info')
+@click.argument('template', type=str)
+@click.argument('directory', type=str)
+def main(verbose, template, directory):
+    # JHA TODO
+    # get rid of stupid need for directory.
+    # use path lib
 
+    print("temp: ", template)
+    print("dirt: ", directory)
     output = process_template(template, directory)
     print(output)
 
