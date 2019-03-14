@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 import click
+import errno
 import jinja2
 import os
+import pathlib
 import sys
 
 
 class TemplateState():
     def __init__(self):
-        self.path = None
+        self.path = pathlib.Path(".")
 
     def set_path(self, path):
-        self.path = path
+        self.path = pathlib.Path(path)
+        if not self.path.is_dir():
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
+                                    self.path)
         return ""
 
     def import_source(self, source, ranges=None):
@@ -61,37 +66,33 @@ def condense_ranges(input_lines, ranges):
     return output_lines
 
 
-def process_template(template_name, source_path):
+def process_template(template):
     # alias the block start and stop strings as they conflict with the
-    # templating on RealPython
-    file_loader = jinja2.FileSystemLoader(source_path)
+    # templating on RealPython.  Currently these are unused here.
+    file_loader = jinja2.FileSystemLoader(str(template.parent))
     env = jinja2.Environment(loader=file_loader,
                              block_start_string='&&&&',
                              block_end_string='&&&&',
                             )
-    template = env.get_template(template_name)
+    template = env.get_template(str(template.name))
 
     template_state = TemplateState()
-    template.globals['set_path'] = template_state.set_path
-    template.globals['import_source'] = template_state.import_source
-
+    for item in dir(TemplateState):
+        if not item.startswith("__"):
+            template.globals[item] = getattr(template_state, item)
     return template.render()
 
 
 @click.command(context_settings=dict(help_option_names=['-h', '--help']))
 @click.option('-v', '--verbose', type=bool, default=False,
-              help='Verbose debuggin info')
+              help='Verbose debugging info')
 @click.argument('template', type=str)
-@click.argument('directory', type=str)
-def main(verbose, template, directory):
-    # JHA TODO
-    # get rid of stupid need for directory.
-    # use path lib
-
-    print("temp: ", template)
-    print("dirt: ", directory)
-    output = process_template(template, directory)
-    print(output)
+def main(verbose, template):
+    try:
+        output = process_template(pathlib.Path(template))
+        print(output)
+    except FileNotFoundError as e:
+        print(f"Unable to import file:{e.filename}", file=sys.stderr)
 
 
 if __name__ == "__main__":
