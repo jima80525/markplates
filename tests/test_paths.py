@@ -2,18 +2,6 @@ import markplates
 import pathlib
 import pytest
 
-def test_condense_ranges():
-    counting_lines = [str(x+1) + "\n" for x in range(13)]
-
-    ranges = [2, ]
-    output_lines = markplates.condense_ranges(counting_lines, ranges)
-    assert '2\n' in output_lines
-    assert '3\n' not in output_lines
-
-    # output_lines = markPlates.condense_ranges(counting_lines, None)
-    # ranges = ["2", 3, "5-6", "9-$", ]
-    # ranges = ["9-$", "2", "5-6", 3, "5-6", "9-$", ]
-
 
 def test_bad_import(tmp_path):
     # test failing import
