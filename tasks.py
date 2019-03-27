@@ -26,4 +26,5 @@ def release(c):
 @task
 def format(c):
     run("black -l 80 markplates")
+    run("black -l 80 tests")
     print("coming soon!")
