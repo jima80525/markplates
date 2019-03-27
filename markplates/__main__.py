@@ -126,7 +126,3 @@ def main(verbose, template):
         print(output)
     except FileNotFoundError as e:
         print(f"Unable to import file:{e.filename}", file=sys.stderr)
-
-
-if __name__ == "__main__":
-    main()
