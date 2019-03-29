@@ -126,3 +126,7 @@ def main(verbose, template):
         print(output)
     except FileNotFoundError as e:
         print(f"Unable to import file:{e.filename}", file=sys.stderr)
+        sys.exit(1)
+    except jinja2.exceptions.TemplateNotFound as e:
+        print(f"Unable to import file:{e}", file=sys.stderr)
+        sys.exit(1)

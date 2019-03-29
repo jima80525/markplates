@@ -26,8 +26,8 @@ def test_import_func(tmp_path):
     source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}' %
-        (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
+        % (tmp_path, file_name)
     )
     fred = markplates.process_template(template)
     print(fred)
@@ -54,8 +54,8 @@ def test_import_no_spacing(tmp_path):
     source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}' %
-        (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
+        % (tmp_path, file_name)
     )
     fred = markplates.process_template(template)
     print(fred)
@@ -91,8 +91,8 @@ def higher_scope(stuff):
     source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}' %
-        (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
+        % (tmp_path, file_name)
     )
     fred = markplates.process_template(template)
     print(fred)
