@@ -6,6 +6,8 @@ The problem I hope to solve is to simplify keeping external files up to date wit
 
 This is currently in the proof-of-concept stage.
 
+[![CircleCI](https://circleci.com/gh/jima80525/markplates.svg?style=svg)](https://circleci.com/gh/jima80525/markplates) ![black](https://img.shields.io/badge/code%20style-black-000000.svg)
+
 ## Installing
 
 Currently this is not packaged at all.   That's pretty high on the todo list.  Right now you have to copy it from github and run manually.
