@@ -8,7 +8,8 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
+      # - image: circleci/python:3.6.1
+      - image: themattrix/tox
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -44,7 +45,8 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            inv test
+            # inv test
+            tox
 
       - store_artifacts:
           path: test-reports
