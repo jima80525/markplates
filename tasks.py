@@ -3,7 +3,7 @@
 from invoke import run
 from invoke import task
 import pytest
-from setuptools import sandbox
+import setuptools
 
 
 @task
@@ -20,12 +20,12 @@ def test(c):
 
 @task
 def build(c):
-    sandbox.run_setup("setup.py", ["clean", "bdist_wheel"])
+    setuptools.sandbox.run_setup("setup.py", ["clean", "bdist_wheel"])
 
 
 @task
 def tox(c):
-    print("coming soon!")
+    run("tox")
 
 
 @task
@@ -37,6 +37,7 @@ def release(c):
 def format(c):
     run("black -l 80 markplates")
     run("black -l 80 tests")
+    run("black -l 80 tasks.py")
 
 
 @task
