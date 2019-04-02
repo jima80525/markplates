@@ -1,32 +1,37 @@
+# ![license_markplates](/home/jima/coding/markplates/license_markplates.jpg)
+
 # MarkPlates
 
 > A templating utility for keeping code included in Markdown documents in sync with the original source.
 
-The problem I hope to solve is to simplify keeping external files up to date with markdown documents that contain them. This happens to me frequently when an editor makes a suggestion to an article that will modify the underlying code it is quoting.
-
-This is currently in the proof-of-concept stage.
-
 [![CircleCI](https://circleci.com/gh/jima80525/markplates.svg?style=svg)](https://circleci.com/gh/jima80525/markplates) ![black](https://img.shields.io/badge/code%20style-black-000000.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![pyup.io](https://pyup.io/repos/github/jima80525/markplates/shield.svg)](https://pyup.io/account/repos/github/jima80525/markplates/)
+
+
+The problem I hope to solve is to simplify keeping external files up to date with markdown documents that contain them. This happens to me frequently when an editor makes a suggestion to an article that will modify the underlying code it is quoting.
 
 ## Installing
 
-Currently this is not packaged at all.   That's pretty high on the todo list.  Right now you have to copy it from github and run manually.
+You can download and install the latest version of MarkPlates from the PyPI with this command:
 
-`Markplates` relies on the `jinja2` package which you can get via:
+```bash
+$ pip install --upgrade markplates
+```
 
-`pip3 install jinja2`
-
-Markplates is currently tested against Python3.6 and Python3.7.
+MarkPlates is currently tested against Python 3.6 and Python 3.7.
 
 ## Usage
 
-You can test out the example in this package by running:
+Running `markplates` is as simple as handing it a file:
 
 ```bash
-$ python -m markplates	simple.mdt examples
+$ markplates template.mdt
 ```
 
-This will process the template in `examples/simple.mdt`, filling it in with data from `examples/testfile.py`.  This demonstrates setting the path and pulling in some of the lines of a file.
+This will process the template in `template.mdt`, filling it in with data specified in the template.  
+
+The `examples` directory has the `simple.mdt` template:
+
+This demonstrates setting the path and pulling in some of the lines of a file.
 
 To use, create a markdown document with special tags to indicate a `markplates` function call.  Currently the delimiter for these tags is `{{` function goes here `}}`.
 
@@ -89,3 +94,5 @@ Let me know!  I'll be working on this for the next few weeks.  If you're interes
 ## Release History
 
 * Not yet.
+
+License plate graphic thanks to [ACME License Maker](https://www.acme.com/licensemaker/)

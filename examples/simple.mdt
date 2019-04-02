@@ -1,12 +1,13 @@
+# Sample MarkPlates Template
 {{ set_path("./examples") }}
-```python linenums="1"
-{{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
+
+This is an example of importing an entire file (minus the first line):
+```python
+{{ import_source("testfile.py") }}
 ```
 
-If you look around the logging statements, you can see that the `main` section is creating and starting the thread:
-
-
-{% collapse 'How Does This *Really* Work'}
-
-The code above isn't quite as crazy as you might originally have thought.  It was designed to force a race condition every time you run it, but that actually makes it much easier to solve than most race conditions.
+While this silly example imports some of the lines from the file, demonstrating ranges:
+```python
+{{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
+```
 
