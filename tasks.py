@@ -92,6 +92,10 @@ def release(c):
 
 @task(distclean, build)
 def test_release(c):
+    """ Push to test Pypi.  Use this command to test the download:
+        pip install --index-url https://test.pypi.org/simple/ \
+                --extra-index-url https://pypi.org/simple your-package
+    """
     status("Checking dist")
     run("twine check dist/*")
 

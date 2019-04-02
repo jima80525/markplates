@@ -25,7 +25,6 @@ class TemplateState:
         lines = open(source_name, "r").readlines()
         if not ranges:
             ranges = ["2-$"]
-        print(ranges)
 
         lines = condense_ranges(lines, ranges)
         return "".join(lines).rstrip()
