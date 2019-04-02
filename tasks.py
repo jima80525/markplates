@@ -56,9 +56,15 @@ def status(s):
 
 
 @task
+def patch(c):
+    status(f"Updating version from {VERSION}…")
+    run("bumpversion patch --tag --commit")
+
+
+@task
 def version(c):
     status(f"Updating version from {VERSION}…")
-    run("bumpversion minor --tag --allow-dirty")
+    run("bumpversion minor --tag --commit")
 
 
 @task
