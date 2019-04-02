@@ -4,6 +4,9 @@ from invoke import run
 from invoke import task
 import pytest
 import setuptools
+import sys
+
+VERSION = "1.0.0"
 
 
 @task
@@ -19,25 +22,15 @@ def test(c):
 
 
 @task
-def build(c):
-    setuptools.sandbox.run_setup("setup.py", ["clean", "bdist_wheel"])
-
-
-@task
 def tox(c):
     run("tox")
 
 
 @task
-def release(c):
-    print("coming soon!")
-
-
-@task
 def format(c):
-    run("black -l 80 markplates")
-    run("black -l 80 tests")
-    run("black -l 80 tasks.py")
+    files = ["markplates", "tests", "tasks.py", "setup.py"]
+    for name in files:
+        run(f"black -l 80 {name}")
 
 
 @task
@@ -57,6 +50,44 @@ def clean(c, bytecode=False, test=False, extra=""):
         c.run("rm -rf {}".format(pattern))
 
 
+def status(s):
+    """Prints things in bold."""
+    print("\033[1m{0}\033[0m".format(s))
+
+
+@task
+def version(c):
+    status(f"Updating version from {VERSION}…")
+    run("bumpversion minor --tag --allow-dirty")
+
+
 @task
 def distclean(c):
+    status("Cleaning project…")
     clean(c, True, True)
+
+
+@task
+def build(c):
+    status("Building Source and Wheel (universal) distribution…")
+    run("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
+
+
+@task(distclean, build)
+def release(c):
+    run("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
+
+    status("Uploading the package to PyPI via Twine…")
+    run("twine upload dist/*")
+
+    status("Pushing git tags…")
+    run("git push --tags")
+
+
+@task(distclean, build)
+def test_release(c):
+    status("Checking dist")
+    run("twine check dist/*")
+
+    status("Uploading the package to TEST PyPI via Twine…")
+    run("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")

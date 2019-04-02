@@ -3,16 +3,14 @@
 import pathlib
 from setuptools import setup
 
-
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
-
-# The text of the README file
 README = (HERE / "README.md").read_text()
+NAME = "markplates"
 
 # This call to setup() does all the work
 setup(
-    name="markplates",
+    name=NAME,
     version="1.0.0",
     description="Inject code snippets into your Markdown docs",
     long_description=README,
@@ -20,6 +18,7 @@ setup(
     url="https://github.com/jima80525/markplates",
     author="Jim Anderson",
     author_email="jima.coding@gmail.com",
+    python_requires=">=3.6.0",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -27,10 +26,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    packages=["markplates"],
+    packages=[NAME],
     include_package_data=False,
-    install_requires=[
-        "click", "jinja2", "pytest",
-    ],
+    install_requires=["Click", "Jinja2"],
     entry_points={"console_scripts": ["markplates=markplates.__main__:main"]},
 )
