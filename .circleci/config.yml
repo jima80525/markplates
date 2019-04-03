@@ -43,15 +43,23 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       # run tests!
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            inv test
+      # - run:
+          # name: run tests
+          # command: |
+            # . venv/bin/activate
+            # inv test
             # tox
+      - run:
+          name: Run Tests
+          command: |
+            $HOME/.local/bin/coverage run -m pytest
+            $HOME/.local/bin/coverage report
+            $HOME/.local/bin/coverage html  # open htmlcov/index.html in a browser
+      - store_artifacts1:
+          path: htmlcov
 
       - codecov/upload:
-          file: .coverage
+          file: htmlcov
 
       - store_artifacts:
           path: test-reports
