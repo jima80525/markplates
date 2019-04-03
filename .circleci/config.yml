@@ -54,13 +54,13 @@ jobs:
           command: |
             . venv/bin/activate
             coverage run -m pytest
-            coverage report
-            coverage html
+            coverage report > coverage_report
+            # coverage html
       - store_artifacts:
-          path: htmlcov
+          path: coverage_report
 
       - codecov/upload:
-          file: htmlcov
+          file: coverage_report
 
       - store_artifacts:
           path: test-reports
