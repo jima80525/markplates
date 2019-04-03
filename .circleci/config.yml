@@ -47,7 +47,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            # inv test
+            inv test
             tox
 
       - store_artifacts:
