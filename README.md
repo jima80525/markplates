@@ -36,14 +36,10 @@ The `examples` directory has the `simple.mdt` template:
 {{ set_path("./examples") }}
 
 This is an example of importing an entire file (minus the first line):
-```python
 {{ import_source("testfile.py") }}
-```
 
 While this silly example imports some of the lines from the file, demonstrating ranges:
-```python
 {{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
-```
 ```
 
 This demonstrates setting the path and pulling in some of the lines of a file. You can also examine the `README.mdt` file in this library which is used to create this README.
