@@ -56,6 +56,12 @@ def status(s):
 
 
 @task
+def readme(c):
+    status(f"Creating README.md…")
+    run("./markplates.py README.mdt > README.md")
+
+
+@task
 def patch(c):
     status(f"Updating version from {VERSION}…")
     run("bumpversion patch --tag --commit")

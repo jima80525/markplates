@@ -32,25 +32,14 @@ This will process the template in `template.mdt`, filling it in with data specif
 The `examples` directory has the `simple.mdt` template:
 
 ```markdown
-# Sample MarkPlates Template
-{{ set_path("./examples") }}
-
-This is an example of importing an entire file (minus the first line):
-```python
-{{ import_source("testfile.py") }}
-```
-
-While this silly example imports some of the lines from the file, demonstrating ranges:
-```python
-{{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
-```
+{{set_path("./examples")}}{{import_source("simple.mdt", ["1-$",])}}
 ```
 
 This demonstrates setting the path and pulling in some of the lines of a file. You can also examine the `README.mdt` file in this library which is used to create this README.
 
-To use on your own project create a markdown document with special tags to indicate a `markplates` function call.  The delimiter for these tags is `{{` function goes here `}}`.
+To use on your own project create a markdown document with special tags to indicate a `markplates` function call.  The delimiter for these tags is {{ '`{{` function goes here `}}`' }}.
 
-> **Note:** if you need to add `{{` characters which should not be processed as a template, you can put them in a `{{ '' }}`  block to escape them.
+> **Note:** if you need to add {{ '`{{`'}} characters which should not be processed as a template, you can put them in a {{ "`{{ '"  "' }}` " }} block to escape them.
 
 `Markplates` supports these functions:
 
@@ -65,12 +54,12 @@ The `set_path()` function allows you to specify the base directory to use when s
 The path must be included in single or double qoutes. If not specified, the path defaults to ".", the current directory.
 
 Examples:
-
+{{ '
 ```
 {{set_path(".")}}  #sets path to the default
 {{set_path("/home/user/my/project")}} # points the path to your project
 ```
-
+' }}
 The `set_path()` command is not required as all other functions will take full paths to files.
 
 ### `import_source()`
@@ -80,13 +69,13 @@ The `import_source()` function will pull in the contents of a source file.  Opti
 If no line number ranges are specified, the first line of the file will be omitted.  This is to prevent the `#!/usr/bin/env python` line from cluttering the markdown article. If you want to include the first line, use the range: `1-$`.
 
 Examples:
-
+{{ '
 ```
 {{import_source("__main__.py")}} # includes all but line 1 from `__main__.py` file
 {{import_source("__main__.py", ["1-$",])}} # imports all lines from `__main__.py`
 {{import_source("__main__.py", [1, "3", "5-$"])}} # imports all lines except lines 2 and 4 from `__main__.py`
 ```
-
+' }}
 `MarkPlates` will display an error message to `stderr` if a file is not found.
 
 ### `import_function()`
@@ -96,11 +85,11 @@ The `inport_function` function will search the source file and include only the 
 Whitespace following the function will not be included.
 
 Examples:
-
+{{ '
 ```
 {{import_function("__main__.py", "condense_ranges")}} # imports the function named `condense_ranges` from `__main__.py`
 ```
-
+' }}
 `MarkPlates` handles nested functions, included any functions nested in the specified function.
 
 ### Line Number Ranges
