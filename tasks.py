@@ -6,7 +6,7 @@ import pytest
 import setuptools
 import sys
 
-VERSION = "1.0.4"
+VERSION = "1.0.0"
 
 
 @task
@@ -14,8 +14,8 @@ def test(c):
     pytest.main(
         [
             "--cov=markplates",
-            "--cov-report=term-missing",
-            "--cov-report=term:skip-covered",
+            # "--cov-report=term-missing",
+            # "--cov-report=term:skip-covered",
             "tests",
         ]
     )
@@ -85,10 +85,14 @@ def build(c):
     run("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
 
 
-@task(distclean, build)
-def release(c):
-    run("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
+@task
+def check_dist(c):
+    status("Checking dist")
+    run("twine check dist/*")
 
+
+@task(distclean, build, check_dist)
+def release(c):
     status("Uploading the package to PyPI via Twine…")
     run("twine upload dist/*")
 
@@ -96,14 +100,11 @@ def release(c):
     run("git push --tags")
 
 
-@task(distclean, build)
+@task(distclean, build, check_dist)
 def test_release(c):
     """ Push to test Pypi.  Use this command to test the download:
         pip install --index-url https://test.pypi.org/simple/ \
                 --extra-index-url https://pypi.org/simple your-package
     """
-    status("Checking dist")
-    run("twine check dist/*")
-
     status("Uploading the package to TEST PyPI via Twine…")
     run("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
