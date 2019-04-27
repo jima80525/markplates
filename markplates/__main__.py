@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import click
+import code
+import contextlib
 import errno
+import io
 import jinja2
 import os
 import pathlib
@@ -58,6 +61,38 @@ class TemplateState:
         while re.search(r"^ *$", output_lines[-1]):
             del output_lines[-1]
         return "".join(output_lines).rstrip()
+
+    def import_repl(self, source):
+        # split into individual lines
+        lines = source.split("\n")
+        # it's a bit cleaner to start the first line of code on the line after
+        # the start of the string, so remove a single blank line from the start
+        # if it's present
+        if len(lines[0]) == 0:
+            lines.pop(0)
+
+        # set up the console and prompts
+        console = code.InteractiveConsole()
+        ps1 = ">>> "
+        ps2 = "... "
+        prompt = ps1
+
+        with io.StringIO() as output:
+            with contextlib.redirect_stdout(output):
+                with contextlib.redirect_stderr(output):
+                    for line in lines:
+                        # don't show prompt on blank lines - spacing looks
+                        # better this way
+                        if len(line) != 0:
+                            print(f"{prompt}{line}")
+                        else:
+                            print()
+                        console.push(line)
+                        if line.endswith(":"):
+                            prompt = ps2
+                        elif len(line) == 0:
+                            prompt = ps1
+            return output.getvalue()
 
 
 def condense_ranges(input_lines, ranges):

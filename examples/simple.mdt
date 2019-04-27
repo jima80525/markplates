@@ -7,3 +7,11 @@ This is an example of importing an entire file (minus the first line):
 While this silly example imports some of the lines from the file, demonstrating ranges:
 {{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
 
+{{ import_repl(
+"""
+def func(x):
+    if x:
+        print(x)
+
+func(True)
+func(False) """) }}

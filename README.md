@@ -39,19 +39,29 @@ This is an example of importing an entire file (minus the first line):
 
 While this silly example imports some of the lines from the file, demonstrating ranges:
 {{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
+
+{{ import_repl(
+"""
+def func(x):
+    if x:
+        print(x)
+
+func(True)
+func(False) """) }}
 ```
 
-This demonstrates setting the path and pulling in some of the lines of a file. You can also examine the `README.mdt` file in this library which is used to create this README.
+This demonstrates setting the path and pulling in some of the lines of a file. You can also examine the `README.mdt` file in this library which is used to create this `README.md`.
 
 To use on your own project create a markdown document with special tags to indicate a `markplates` function call.  The delimiter for these tags is `{{` function goes here `}}`.
 
-> **Note:** if you need to add `{{` characters which should not be processed as a template, you can put them in a `{{ '' }}`  block to escape them.
+> **Note:** if you need to add `{{` characters which should not be processed as a template, you can put them in a `{{ '' }}`  block to escape them. Template processing is done with `Jinja2` so Markplates uses the same escape sequences.
 
 `Markplates` supports these functions:
 
 *  `set_path("path/to/source/files")`
 * `import_source("source_file_name", [list of line number ranges])`
-* `import_function("source_file_name", "function_name")
+* `import_function("source_file_name", "function_name")`
+* `import_repl("code to run in repl")`
 
 ### `set_path()`
 
@@ -60,6 +70,7 @@ The `set_path()` function allows you to specify the base directory to use when s
 The path must be included in single or double qoutes. If not specified, the path defaults to ".", the current directory.
 
 Examples:
+
 
 ```
 {{set_path(".")}}  #sets path to the default
@@ -98,6 +109,38 @@ Examples:
 
 `MarkPlates` handles nested functions, included any functions nested in the specified function.
 
+### `import_repl()`
+
+The `import_repl` function takes the input parameter and splits it into separate lines.  Each line of the input will be run in a REPL with the `stdout` and `stderr` captured to insert into the final output. The result should appear similar to a copy-paste from running the same commands manually.
+
+There is an exception, however.  Blank input lines are used for spacing and will not display the `>>>` prompt one would normally see in the REPL.
+
+Example:
+
+```
+{{import_repl(
+"""
+def func(x):
+    if x:
+        print(x)
+
+func(True)
+func(False) """) }}
+```
+
+
+Output:
+```
+>>> def func(x):
+...     if x:
+...         print(x)
+
+>>> func(True)
+True
+>>> func(False)
+
+```
+
 ### Line Number Ranges
 
 Line number ranges allow you to specify which lines you want to include from the source file.   Ranges can be in the following form:
@@ -125,6 +168,8 @@ Let me know!  If you're interested in the results or would like to help out, ple
 
 ## Release History
 
-* Getting set for first release!
+* 1.1.0 Added `import_repl` functionality
+
+* 1.0.0 Initial release
 
 License plate graphic thanks to [ACME License Maker](https://www.acme.com/licensemaker/)
