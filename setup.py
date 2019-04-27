@@ -11,7 +11,7 @@ NAME = "markplates"
 # This call to setup() does all the work
 setup(
     name=NAME,
-    version="1.0.0",
+    version="1.1.0",
     description="Inject code snippets into your Markdown docs",
     long_description=README,
     long_description_content_type="text/markdown",
