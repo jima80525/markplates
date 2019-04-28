@@ -92,7 +92,15 @@ class TemplateState:
                             prompt = ps2
                         elif len(line) == 0:
                             prompt = ps1
-            return output.getvalue()
+            # Trim trailing blank lines
+            outputString = output.getvalue()
+            while outputString[-1] == "\n" and outputString[-2] == "\n":
+                outputString = outputString[:-1]
+                # degenerate case of entirely empty repl block
+                # still return a single blank line
+                if len(outputString) < 2:
+                    return outputString
+            return outputString
 
 
 def condense_ranges(input_lines, ranges):

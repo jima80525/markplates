@@ -9,7 +9,7 @@ def test_syntax_error(tmp_path):
 
 
 def test_all_spaces(tmp_path):
-    expected_result = "before\n\n\n\nafter"
+    expected_result = "before\nafter"
     template = tmp_path / "t_import.mdt"
     with open(template, "w") as temp:
         temp.write('before{{ import_repl("""\n')
@@ -31,7 +31,7 @@ def test_bad_import(tmp_path):
 
 def test_function_format(tmp_path):
     expected_result = (
-        """before\n>>> def func():\n...     pass\n\n>>> pass\n\n\nafter"""
+        """before\n>>> def func():\n...     pass\n\n>>> pass\n\nafter"""
     )
 
     template = tmp_path / "t_import.mdt"
@@ -46,5 +46,4 @@ def test_function_format(tmp_path):
         temp.write(") }}\n")
         temp.write("after\n")
     result = markplates.process_template(template)
-    print(result)
     assert result == expected_result
