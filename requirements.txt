@@ -8,7 +8,7 @@ certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
 coverage==4.5.3
-coveralls==1.7.0
+coveralls==1.8.0
 docopt==0.6.2
 docutils==0.14
 filelock==3.0.12
@@ -18,10 +18,10 @@ Jinja2==2.10.1
 MarkupSafe==1.1.1
 more-itertools==7.0.0
 pkginfo==1.5.0.1
-pluggy==0.11.0
+pluggy==0.12.0
 py==1.8.0
-Pygments==2.4.1
-pytest==4.5.0
+Pygments==2.4.2
+pytest==4.6.1
 pytest-cov==2.7.1
 readme-renderer==24.0
 requests==2.22.0
