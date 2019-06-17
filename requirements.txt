@@ -4,11 +4,11 @@ attrs==19.1.0
 black==19.3b0
 bleach==3.1.0
 bumpversion==0.5.3
-certifi==2019.3.9
+certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
 coverage==4.5.3
-coveralls==1.8.0
+coveralls==1.8.1
 docopt==0.6.2
 docutils==0.14
 filelock==3.0.12
@@ -21,7 +21,7 @@ pkginfo==1.5.0.1
 pluggy==0.12.0
 py==1.8.0
 Pygments==2.4.2
-pytest==4.6.2
+pytest==4.6.3
 pytest-cov==2.7.1
 readme-renderer==24.0
 requests==2.22.0
@@ -32,5 +32,5 @@ tox==3.12.1
 tqdm==4.32.1
 twine==1.13.0
 urllib3==1.25.3
-virtualenv==16.6.0
+virtualenv==16.6.1
 webencodings==0.5.1
