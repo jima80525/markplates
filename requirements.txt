@@ -16,7 +16,7 @@ idna==2.8
 invoke==1.2.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-more-itertools==7.1.0
+more-itertools==7.2.0
 pkginfo==1.5.0.1
 pluggy==0.12.0
 py==1.8.0
