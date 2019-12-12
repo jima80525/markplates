@@ -30,6 +30,8 @@ class TemplateState:
             ranges = ["2-$"]
 
         lines = condense_ranges(lines, ranges)
+        lines = remove_double_blanks(lines)
+        lines = left_justify(lines)
         return "".join(lines).rstrip()
 
     def import_function(self, source, function_name):
@@ -101,6 +103,39 @@ class TemplateState:
                 if len(outputString) < 2:
                     return outputString
             return outputString
+
+
+def remove_double_blanks(lines):
+    """ Takes a list of lines and condenses multiple blank lines into a single
+    blank line.
+    """
+    new_lines = []
+    prev_line = ""  # empty line here will remove leading blank space
+    for line in lines:
+        if len(line.strip()) or len(prev_line.strip()):
+            new_lines.append(line)
+        prev_line = line
+    return new_lines
+
+
+def left_justify(lines):
+    """ Removes a consistent amount of leading whitespace from the front of each
+    line so that at least one line is left-justified.
+    WARNING: this will fail on mixed tabs and spaces. Don't do that.
+    """
+    leads = [len(line) - len(line.lstrip()) for line in lines if
+             len(line.strip())]
+    if not leads:  # degenerate case where there are only blank lines
+        return lines
+    min_lead = min(leads)
+    new_lines = []
+    for line in lines:
+        if len(line.strip()):
+            new_lines.append(line[min_lead:])
+        else:
+            new_lines.append(line)
+    return new_lines
+
 
 
 def condense_ranges(input_lines, ranges):
