@@ -14,7 +14,7 @@ docutils==0.16
 filelock==3.0.12
 idna==2.8
 invoke==1.4.1
-Jinja2==2.10.3
+Jinja2==2.11.1
 MarkupSafe==1.1.1
 more-itertools==7.2.0
 pkginfo==1.5.0.1
