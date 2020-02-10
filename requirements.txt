@@ -32,5 +32,5 @@ tox==3.14.3
 tqdm==4.42.1
 twine==3.1.1
 urllib3==1.25.8
-virtualenv==16.7.9
+virtualenv==20.0.1
 webencodings==0.5.1
