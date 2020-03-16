@@ -6,7 +6,7 @@ bleach==3.1.1
 bumpversion==0.5.3
 certifi==2019.11.28
 chardet==3.0.4
-Click==7.1
+Click==7.1.1
 coverage==5.0.3
 coveralls==1.11.1
 docopt==0.6.2
@@ -21,9 +21,9 @@ pkginfo==1.5.0.1
 pluggy==0.13.1
 py==1.8.1
 Pygments==2.6.1
-pytest==5.3.5
+pytest==5.4.1
 pytest-cov==2.8.1
-readme-renderer==24.0
+readme-renderer==25.0
 requests==2.23.0
 requests-toolbelt==0.9.1
 six==1.14.0
@@ -32,5 +32,5 @@ tox==3.14.5
 tqdm==4.43.0
 twine==3.1.1
 urllib3==1.25.8
-virtualenv==20.0.9
+virtualenv==20.0.10
 webencodings==0.5.1
