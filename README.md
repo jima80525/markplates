@@ -173,3 +173,5 @@ Let me know!  If you're interested in the results or would like to help out, ple
 * 1.0.0 Initial release
 
 License plate graphic thanks to [ACME License Maker](https://www.acme.com/licensemaker/)
+
+ **[ ~ Dependencies scanned by PyUp.io ~ ]**
