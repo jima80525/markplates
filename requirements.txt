@@ -2,7 +2,7 @@ appdirs==1.4.3
 atomicwrites==1.4.0
 attrs==19.3.0
 black==19.10b0
-bleach==3.1.4
+bleach==3.1.5
 bumpversion==0.5.3
 certifi==2020.4.5.1
 chardet==3.0.4
