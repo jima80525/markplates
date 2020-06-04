@@ -13,10 +13,10 @@ The problem I hope to solve is to simplify keeping external files up to date wit
 You can download and install the latest version of MarkPlates from the PyPI with this command:
 
 ```bash
-$ pip install --upgrade markplates
+$ python3 -m pip install --upgrade markplates
 ```
 
-MarkPlates is currently tested against Python 3.6 and Python 3.7.
+MarkPlates is currently tested against Python 3.6, 3.7, 3.8, and 3.9.
 
 ## Usage
 
@@ -43,8 +43,8 @@ To use on your own project create a markdown document with special tags to indic
 `Markplates` supports these functions:
 
 *  `set_path("path/to/source/files")`
-* `import_source("source_file_name", [list of line number ranges])`
-* `import_function("source_file_name", "function_name")`
+* `import_source("source_file_name", [list of line number ranges], language=None, filename=False)`
+* `import_function("source_file_name", "function_name", language=None, filename=False)`
 * `import_repl("code to run in repl")`
 
 ### `set_path()`
@@ -75,8 +75,13 @@ Examples:
 {{import_source("__main__.py")}} # includes all but line 1 from `__main__.py` file
 {{import_source("__main__.py", ["1-$",])}} # imports all lines from `__main__.py`
 {{import_source("__main__.py", [1, "3", "5-$"])}} # imports all lines except lines 2 and 4 from `__main__.py`
+{{import_source("__main__.py", language="python", filename=True)}} 
+# includes all but line 1 from `__main__.py` file, puts the 
+# contents in a python block with the filename as a comment in 
+# the first line of the block.
 ```
 ' }}
+
 `MarkPlates` will display an error message to `stderr` if a file is not found.
 
 ### `import_function()`
@@ -91,7 +96,8 @@ Examples:
 {{import_function("__main__.py", "condense_ranges")}} # imports the function named `condense_ranges` from `__main__.py`
 ```
 ' }}
-`MarkPlates` handles nested functions, included any functions nested in the specified function.
+
+`MarkPlates` handles nested functions, included any functions nested in the specified function. The `language` and `filename` parameters are treated the same way they are in `import_source()`.
 
 ### `import_repl()`
 

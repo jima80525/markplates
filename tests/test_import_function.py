@@ -17,9 +17,9 @@ def test_import_func(tmp_path):
         pass
     """
     # must match simple_source
-    expected_result = """    def second(arg, arg2):
-        code
-        pass"""
+    expected_result = """def second(arg, arg2):
+    code
+    pass"""
 
     file_name = "fake_source.py"
     source_file = tmp_path / file_name
@@ -45,9 +45,9 @@ def test_import_no_spacing(tmp_path):
         pass
     """
     # must match simple_source
-    expected_result = """    def second(arg, arg2):
-        code
-        pass"""
+    expected_result = """def second(arg, arg2):
+    code
+    pass"""
 
     file_name = "fake_source.py"
     source_file = tmp_path / file_name
@@ -82,9 +82,9 @@ def higher_scope(stuff):
         print(f"Read {len(response.content)} from {url}")
 """
     # must match simple_source
-    expected_result = """    def second(arg, arg2):
-        code
-        pass"""
+    expected_result = """def second(arg, arg2):
+    code
+    pass"""
 
     file_name = "fake_source.py"
     source_file = tmp_path / file_name
@@ -92,6 +92,66 @@ def higher_scope(stuff):
     template = tmp_path / "t_import.mdt"
     template.write_text(
         '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
+        % (tmp_path, file_name)
+    )
+    fred = markplates.process_template(template)
+    print(fred)
+    assert fred == expected_result
+
+
+def test_add_filename(tmp_path):
+    simple_source = """
+    def first(arg):
+        pass
+    def second(arg, arg2):
+        code
+        pass
+    def third(arg1, 2):
+        pass
+    """
+    # must match simple_source
+    expected_result = """# fake_source.py
+def second(arg, arg2):
+    code
+    pass"""
+
+    file_name = "fake_source.py"
+    source_file = tmp_path / file_name
+    source_file.write_text(simple_source)
+    template = tmp_path / "t_import.mdt"
+    template.write_text(
+        '{{ set_path("%s") }}{{ import_function("%s", "second", None, True) }}'
+        % (tmp_path, file_name)
+    )
+    fred = markplates.process_template(template)
+    assert fred == expected_result
+
+
+# a more complete test of languages is in import_source tests.  It uses the
+# same underlying function so we won't retest all of it here.
+def test_add_language(tmp_path):
+    simple_source = """
+    def first(arg):
+        pass
+    def second(arg, arg2):
+        code
+        pass
+    def third(arg1, 2):
+        pass
+    """
+    # must match simple_source
+    expected_result = """```python
+def second(arg, arg2):
+    code
+    pass
+```"""
+
+    file_name = "fake_source.py"
+    source_file = tmp_path / file_name
+    source_file.write_text(simple_source)
+    template = tmp_path / "t_import.mdt"
+    template.write_text(
+        '{{ set_path("%s") }}{{ import_function("%s", "second", "Python", False) }}'
         % (tmp_path, file_name)
     )
     fred = markplates.process_template(template)

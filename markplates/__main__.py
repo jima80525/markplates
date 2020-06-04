@@ -23,7 +23,26 @@ class TemplateState:
             )
         return ""
 
-    def import_source(self, source, ranges=None):
+    def _add_filename(self, to_add, source, lines):
+        if to_add:
+            lines.insert(0, "# %s\n" % source)
+
+    def _add_language(self, language, lines, skipEndReturn=False):
+        if language:
+            if language.lower() in ["c", "cpp", "c++"]:
+                language = "cpp"
+            lines.insert(0, "```%s\n" % language.lower())
+            if skipEndReturn:
+                lines.append("```")
+            else:
+                lines.append("\n```")
+
+    def _strip_trailing_blanks(self, lines):
+        if lines:
+            while re.search(r"^ *$", lines[-1]):
+                del lines[-1]
+
+    def import_source(self, source, ranges=None, language=None, filename=False):
         source_name = self.path / source
         lines = open(source_name, "r").readlines()
         if not ranges:
@@ -32,9 +51,14 @@ class TemplateState:
         lines = condense_ranges(lines, ranges)
         lines = remove_double_blanks(lines)
         lines = left_justify(lines)
+        self._add_filename(filename, source, lines)
+        self._add_language(language, lines)
+        self._strip_trailing_blanks(lines)
         return "".join(lines).rstrip()
 
-    def import_function(self, source, function_name):
+    def import_function(
+        self, source, function_name, language=None, filename=False
+    ):
         """ Search for and extract a function.  Uses VERY simplistic processing
         for this, so I"m concerned this will not play out as well as hoped.
         Basically searches for "def <function>` and then copies all but the
@@ -59,9 +83,10 @@ class TemplateState:
                     output_lines.append(line)
                     end_pattern = r"^ {0,%d}\w" % len(matchObj.group(1))
 
-        # remove blank lines from the end
-        while re.search(r"^ *$", output_lines[-1]):
-            del output_lines[-1]
+        self._strip_trailing_blanks(output_lines)
+        output_lines = left_justify(output_lines)
+        self._add_filename(filename, source, output_lines)
+        self._add_language(language, output_lines, True)
         return "".join(output_lines).rstrip()
 
     def import_repl(self, source):
@@ -123,8 +148,9 @@ def left_justify(lines):
     line so that at least one line is left-justified.
     WARNING: this will fail on mixed tabs and spaces. Don't do that.
     """
-    leads = [len(line) - len(line.lstrip()) for line in lines if
-             len(line.strip())]
+    leads = [
+        len(line) - len(line.lstrip()) for line in lines if len(line.strip())
+    ]
     if not leads:  # degenerate case where there are only blank lines
         return lines
     min_lead = min(leads)
@@ -135,7 +161,6 @@ def left_justify(lines):
         else:
             new_lines.append(line)
     return new_lines
-
 
 
 def condense_ranges(input_lines, ranges):
