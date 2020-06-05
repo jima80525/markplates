@@ -27,15 +27,12 @@ class TemplateState:
         if to_add:
             lines.insert(0, "# %s\n" % source)
 
-    def _add_language(self, language, lines, skipEndReturn=False):
+    def _add_language(self, language, lines):
         if language:
             if language.lower() in ["c", "cpp", "c++"]:
                 language = "cpp"
             lines.insert(0, "```%s\n" % language.lower())
-            if skipEndReturn:
-                lines.append("```")
-            else:
-                lines.append("\n```")
+            lines.append("```")
 
     def _strip_trailing_blanks(self, lines):
         if lines:
@@ -50,10 +47,13 @@ class TemplateState:
 
         lines = condense_ranges(lines, ranges)
         lines = remove_double_blanks(lines)
+        # If the trailing line doesn't have a \n, add one here
+        if lines and not lines[-1].endswith("\n"):
+            lines[-1] += ("\n")
+        self._strip_trailing_blanks(lines)
         lines = left_justify(lines)
         self._add_filename(filename, source, lines)
         self._add_language(language, lines)
-        self._strip_trailing_blanks(lines)
         return "".join(lines).rstrip()
 
     def import_function(
@@ -86,7 +86,7 @@ class TemplateState:
         self._strip_trailing_blanks(output_lines)
         output_lines = left_justify(output_lines)
         self._add_filename(filename, source, output_lines)
-        self._add_language(language, output_lines, True)
+        self._add_language(language, output_lines)
         return "".join(output_lines).rstrip()
 
     def import_repl(self, source):
