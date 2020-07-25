@@ -101,12 +101,12 @@ class TemplateState:
         # set up the console and prompts
         console = code.InteractiveConsole()
         ps1 = ">>> "
-        ps2 = "... "
         prompt = ps1
 
         with io.StringIO() as output:
             with contextlib.redirect_stdout(output):
                 with contextlib.redirect_stderr(output):
+                    ps2 = "... "
                     for line in lines:
                         # don't show prompt on blank lines - spacing looks
                         # better this way
