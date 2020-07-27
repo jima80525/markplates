@@ -9,6 +9,7 @@ import os
 import pathlib
 import re
 import sys
+import pyperclip
 
 
 class TemplateState:
@@ -49,7 +50,7 @@ class TemplateState:
         lines = remove_double_blanks(lines)
         # If the trailing line doesn't have a \n, add one here
         if lines and not lines[-1].endswith("\n"):
-            lines[-1] += ("\n")
+            lines[-1] += "\n"
         self._strip_trailing_blanks(lines)
         lines = left_justify(lines)
         self._add_filename(filename, source, lines)
@@ -225,11 +226,23 @@ def process_template(template):
 @click.option(
     "-v", "--verbose", type=bool, default=False, help="Verbose debugging info"
 )
+@click.option(
+    "-c",
+    "--clip",
+    type=bool,
+    default=False,
+    help="RealPython output to clipboard",
+)
 @click.argument("template", type=str)
-def main(verbose, template):
+def main(verbose, clip, template):
     try:
         output = process_template(pathlib.Path(template))
         print(output)
+        if clip:
+            # copy lines to clipboard, but skip the first title and the subsequent blank line
+            lines = output.split("\n")
+            to_clip = "\n".join(lines[2:])
+            pyperclip.copy(to_clip)
     except FileNotFoundError as e:
         print(f"Unable to import file:{e.filename}", file=sys.stderr)
         sys.exit(1)
