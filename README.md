@@ -23,10 +23,10 @@ MarkPlates is currently tested against Python 3.6, 3.7, 3.8, and 3.9.
 Running `markplates` is as simple as handing it a file:
 
 ```bash
-$ markplates template.mdt
+$ markplates [-c] template.mdt
 ```
 
-This will process the template in `template.mdt`, filling it in with data specified in the template.
+This will process the template in `template.mdt`, filling it in with data specified in the template. If the `-c` option is supplied, all but the first two lines of the output will be copied to the system clipboard. This is handy for copying the results to a website.
 
 The `examples` directory has the `simple.mdt` template:
 
