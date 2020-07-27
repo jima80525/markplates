@@ -1,4 +1,5 @@
 import markplates
+import pytest
 
 
 def test_import_func(tmp_path):
@@ -32,6 +33,67 @@ def test_import_func(tmp_path):
     fred = markplates.process_template(template)
     print(fred)
     assert fred == expected_result
+
+
+def test_import_func_prefix(tmp_path):
+    simple_source = """
+    def first(arg):
+        pass
+
+
+    def second_longer(arg, arg2):
+        not right
+        pass
+        
+        
+    def second(arg, arg2):
+        code
+        pass
+
+
+
+    def third(arg1, 2):
+        pass
+    
+    """
+    # must match simple_source
+    expected_result = """def second(arg, arg2):
+    code
+    pass"""
+
+    file_name = "fake_source.py"
+    source_file = tmp_path / file_name
+    source_file.write_text(simple_source)
+    template = tmp_path / "t_import.mdt"
+    template.write_text(
+        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
+        % (tmp_path, file_name)
+    )
+    result = markplates.process_template(template)
+    assert result == expected_result
+
+
+def test_import_bad_name(tmp_path):
+    simple_source = """
+    def first(arg):
+        pass
+    def second(arg, arg2):
+        code
+        pass
+    def third(arg1, 2):
+        pass
+    """
+    # must match simple_source
+    file_name = "fake_source.py"
+    source_file = tmp_path / file_name
+    source_file.write_text(simple_source)
+    template = tmp_path / "t_import.mdt"
+    template.write_text(
+        '{{ set_path("%s") }}{{ import_function("%s", "not_present") }}'
+        % (tmp_path, file_name)
+    )
+    with pytest.raises(Exception):
+        markplates.process_template(template)
 
 
 def test_import_no_spacing(tmp_path):

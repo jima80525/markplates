@@ -65,11 +65,12 @@ class TemplateState:
         trailing blank lines to the output.
         If you have two functions of the same name, it will select the first.
         """
-        function_pattern = r"(\s*)def\s*" + function_name
+        function_pattern = r"(\s*)def\s*" + function_name + r"\s*\("
         end_pattern = None
         output_lines = []
         source_name = self.path / source
         lines = open(source_name, "r").readlines()
+        function_found = False
         for line in lines:
             # first see if we're already copying use `end_pattern` as a flag
             if end_pattern:
@@ -80,9 +81,12 @@ class TemplateState:
             else:
                 matchObj = re.match(function_pattern, line)
                 if matchObj:
+                    function_found = True
                     output_lines.append(line)
                     end_pattern = r"^ {0,%d}\w" % len(matchObj.group(1))
 
+        if not function_found:
+            raise Exception(f"Function not found: {function_name}")
         self._strip_trailing_blanks(output_lines)
         output_lines = left_justify(output_lines)
         self._add_filename(filename, source, output_lines)
@@ -121,7 +125,7 @@ class TemplateState:
                             prompt = ps1
             # Trim trailing blank lines
             outputString = output.getvalue()
-            while outputString[-1] == "\n" and outputString[-2] == "\n":
+            while outputString[-1] == "\n":
                 outputString = outputString[:-1]
                 # degenerate case of entirely empty repl block
                 # still return a single blank line

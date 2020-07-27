@@ -31,7 +31,7 @@ def test_bad_import(tmp_path):
 
 def test_function_format(tmp_path):
     expected_result = (
-        """before\n>>> def func():\n...     pass\n\n>>> pass\n\nafter"""
+        """before\n>>> def func():\n...     pass\n\n>>> pass\nafter"""
     )
 
     template = tmp_path / "t_import.mdt"
