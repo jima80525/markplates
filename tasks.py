@@ -6,7 +6,7 @@ import pytest
 import setuptools
 import sys
 
-VERSION = "1.3.0"
+VERSION = "1.4.0"
 
 
 @task
