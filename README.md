@@ -91,9 +91,9 @@ Examples:
 {{import_source("__main__.py")}} # includes all but line 1 from `__main__.py` file
 {{import_source("__main__.py", ["1-$",])}} # imports all lines from `__main__.py`
 {{import_source("__main__.py", [1, "3", "5-$"])}} # imports all lines except lines 2 and 4 from `__main__.py`
-{{import_source("__main__.py", language="python", filename=True)}} 
-# includes all but line 1 from `__main__.py` file, puts the 
-# contents in a python block with the filename as a comment in 
+{{import_source("__main__.py", language="python", filename=True)}}
+# includes all but line 1 from `__main__.py` file, puts the
+# contents in a python block with the filename as a comment in
 # the first line of the block.
 ```
 
@@ -102,7 +102,7 @@ Examples:
 
 ### `import_function()`
 
-The `inport_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
+The `import_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
 
 Whitespace following the function will not be included.
 
