@@ -1,12 +1,17 @@
 # Sample MarkPlates Template
 {{ set_path("./examples") }}
 
-This is an example of importing an entire file (minus the first line):
+This is an example of importing an entire file. Without a range specified, the first line is skipped to not include the shell specifier. Double blank lines are condensed into single lines:
 {{ import_source("testfile.py") }}
 
-While this silly example imports some of the lines from the file, demonstrating ranges:
-{{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
+If you want to include the shell specifier, you can include it explicitly in a range. This silly example imports some of the lines from the file, demonstrating different ranges. Note that the ranges are compiled into a single list, so over-lapping ranges are only shown once:
+{{ import_source("testfile.py", [1, 5, "2", 3, "8-$", "$", "$-2"]) }}
 
+Functions can be imported from a file by name:
+
+{{ import_function("testfile.py", "flying_pig_menu") }}
+
+The import_repl tag captures stdout and stderr from a REPL session:
 {{ import_repl(
 """
 def func(x):
@@ -15,3 +20,4 @@ def func(x):
 
 func(True)
 func(False) """) }}
+

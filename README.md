@@ -23,10 +23,10 @@ MarkPlates is currently tested against Python 3.6, 3.7, 3.8, and 3.9.
 Running `markplates` is as simple as handing it a file:
 
 ```bash
-$ markplates [-c] template.mdt
+$ markplates template.mdt
 ```
 
-This will process the template in `template.mdt`, filling it in with data specified in the template. If the `-c` option is supplied, all but the first two lines of the output will be copied to the system clipboard. This is handy for copying the results to a website.
+This will process the template in `template.mdt`, filling it in with data specified in the template.
 
 The `examples` directory has the `simple.mdt` template:
 
@@ -34,12 +34,17 @@ The `examples` directory has the `simple.mdt` template:
 # Sample MarkPlates Template
 {{ set_path("./examples") }}
 
-This is an example of importing an entire file (minus the first line):
+This is an example of importing an entire file. Without a range specified, the first line is skipped to not include the shell specifier. Double blank lines are condensed into single lines:
 {{ import_source("testfile.py") }}
 
-While this silly example imports some of the lines from the file, demonstrating ranges:
-{{ import_source("testfile.py", [5, "2", 3, "8-$", ]) }}
+If you want to include the shell specifier, you can include it explicitly in a range. This silly example imports some of the lines from the file, demonstrating different ranges. Note that the ranges are compiled into a single list, so over-lapping ranges are only shown once:
+{{ import_source("testfile.py", [1, 5, "2", 3, "8-$", "$", "$-2"]) }}
 
+Functions can be imported from a file by name:
+
+{{ import_function("testfile.py", "flying_pig_menu") }}
+
+The import_repl tag captures stdout and stderr from a REPL session:
 {{ import_repl(
 """
 def func(x):
@@ -91,9 +96,9 @@ Examples:
 {{import_source("__main__.py")}} # includes all but line 1 from `__main__.py` file
 {{import_source("__main__.py", ["1-$",])}} # imports all lines from `__main__.py`
 {{import_source("__main__.py", [1, "3", "5-$"])}} # imports all lines except lines 2 and 4 from `__main__.py`
-{{import_source("__main__.py", language="python", filename=True)}}
-# includes all but line 1 from `__main__.py` file, puts the
-# contents in a python block with the filename as a comment in
+{{import_source("__main__.py", language="python", filename=True)}} 
+# includes all but line 1 from `__main__.py` file, puts the 
+# contents in a python block with the filename as a comment in 
 # the first line of the block.
 ```
 
@@ -102,7 +107,7 @@ Examples:
 
 ### `import_function()`
 
-The `import_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
+The `inport_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
 
 Whitespace following the function will not be included.
 
@@ -157,6 +162,10 @@ Line number ranges allow you to specify which lines you want to include from the
 
 * "10-$" : an unlimited range includes start line to the end of the file
 
+* "$" : the last line
+
+* "$-3" : negative indexing, the last line and the three lines that proceed it
+
 > **Note:** LINE NUMBERING STARTS AT 1!
 
 ## Features to Come
@@ -164,7 +173,6 @@ Line number ranges allow you to specify which lines you want to include from the
 I'd like to add:
 
 * Capturing the results of a shell command and inserting into the file
-* Copying the resultant Markdown file to the clipboard
 * Running `black` over the included Python source
 * Windows and Mac testing/support
 
