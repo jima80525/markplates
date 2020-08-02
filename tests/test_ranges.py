@@ -28,6 +28,21 @@ def test_counting_range(counting_lines):
     output_lines = markplates.condense_ranges(lines, ranges)
     assert output_lines == ["8\n", "9\n", "10\n"]
 
+    # last line only
+    ranges = ["$"]
+    output_lines = markplates.condense_ranges(lines, ranges)
+    assert output_lines == ["13\n"]
+
+    # negative indexing, border condition
+    ranges = ["$-1"]
+    output_lines = markplates.condense_ranges(lines, ranges)
+    assert output_lines == ["12\n", "13\n"]
+
+    # negative indexing
+    ranges = ["$-3"]
+    output_lines = markplates.condense_ranges(lines, ranges)
+    assert output_lines == ["10\n", "11\n", "12\n", "13\n"]
+
 
 def test_spacing(counting_lines):
     lines = counting_lines()

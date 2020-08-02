@@ -141,6 +141,10 @@ Line number ranges allow you to specify which lines you want to include from the
 
 * "10-$" : an unlimited range includes start line to the end of the file
 
+* "$" : the last line
+
+* "$-3" : negative indexing, the last line and the three lines that proceed it
+
 > **Note:** LINE NUMBERING STARTS AT 1!
 
 ## Features to Come
@@ -148,7 +152,6 @@ Line number ranges allow you to specify which lines you want to include from the
 I'd like to add:
 
 * Capturing the results of a shell command and inserting into the file
-* Copying the resultant Markdown file to the clipboard
 * Running `black` over the included Python source
 * Windows and Mac testing/support
 

@@ -189,16 +189,30 @@ def condense_ranges(input_lines, ranges):
             rint = int(_range)
             output_numbers.add(rint)
         except ValueError:
-            # If it's not a single line, look for a range
-            start, end = _range.split("-")
-            start = int(start)
-            # check for $ on end first
-            if end.strip() == "$":
-                end = len(input_lines)
+            if _range == "$":
+                # $ on its own means last line
+                output_numbers.add(len(input_lines))
             else:
-                end = int(end)
-            # output_numbers.update(list(range(start, end+1)))
-            output_numbers.update(range(start, end + 1))
+                # If it's not a single line, look for a range
+                start, end = _range.split("-")
+                if start == "$":
+                    # Support negative indexing on lines, end will be the last
+                    # line, start will be the last line minus the "end" value
+                    # in the range
+                    count = int(end)
+                    end = len(input_lines)
+                    start = end - count
+                else:
+                    # Start of range is a number
+                    start = int(start)
+                    # check for $ on end first
+                    if end.strip() == "$":
+                        end = len(input_lines)
+                    else:
+                        end = int(end)
+
+                # output_numbers.update(list(range(start, end+1)))
+                output_numbers.update(range(start, end + 1))
     # now we have normalized the line numbers, create the list of output lines
     output_lines = list()
     for number in sorted(output_numbers):
