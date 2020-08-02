@@ -224,13 +224,12 @@ def process_template(template):
 
 @click.command(context_settings=dict(help_option_names=["-h", "--help"]))
 @click.option(
-    "-v", "--verbose", type=bool, default=False, help="Verbose debugging info"
+    "-v", "--verbose", is_flag=True, help="Verbose debugging info"
 )
 @click.option(
     "-c",
     "--clip",
-    type=bool,
-    default=False,
+    is_flag=True,
     help="RealPython output to clipboard",
 )
 @click.argument("template", type=str)
