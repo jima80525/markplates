@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import ast
+import asttokens
 import click
 import code
 import contextlib
@@ -12,6 +14,35 @@ import sys
 import pyperclip
 
 
+def _descend_tree(atok, parent, local_name, name_parts):
+    for node in ast.iter_child_nodes(parent):
+        if (
+            node.__class__ in [ast.FunctionDef, ast.ClassDef]
+            and node.name == local_name
+        ):
+            if len(name_parts) == 0:
+                # Found the node, return the code
+                return atok.get_text(node) + "\n"
+
+            # Found a fn or class, but looking for a child of it
+            return _descend_tree(atok, node, name_parts[0], name_parts[1:])
+
+        if (
+            node.__class__ == ast.Assign
+            and node.first_token.string == local_name
+            and len(name_parts) == 0
+        ):
+            return atok.get_text(node) + "\n"
+
+    return ""
+
+
+def find_in_source(source, name):
+    atok = asttokens.ASTTokens(source, parse=True)
+    name_parts = name.split(".")
+    return _descend_tree(atok, atok.tree, name_parts[0], name_parts[1:])
+
+
 class TemplateState:
     def __init__(self):
         self.path = pathlib.Path(".")
@@ -19,9 +50,7 @@ class TemplateState:
     def set_path(self, path):
         self.path = pathlib.Path(path)
         if not self.path.is_dir():
-            raise FileNotFoundError(
-                errno.ENOENT, os.strerror(errno.ENOENT), self.path
-            )
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.path)
         return ""
 
     def _add_filename(self, to_add, source, lines):
@@ -57,37 +86,22 @@ class TemplateState:
         self._add_language(language, lines)
         return "".join(lines).rstrip()
 
-    def import_function(
-        self, source, function_name, language=None, filename=False
-    ):
+    def import_function(self, source, function_name, language=None, filename=False):
         """ Search for and extract a function.  Uses VERY simplistic processing
         for this, so I"m concerned this will not play out as well as hoped.
         Basically searches for "def <function>` and then copies all but the
         trailing blank lines to the output.
         If you have two functions of the same name, it will select the first.
         """
-        function_pattern = r"(\s*)def\s*" + function_name + r"\s*\("
-        end_pattern = None
-        output_lines = []
         source_name = self.path / source
-        lines = open(source_name, "r").readlines()
-        function_found = False
-        for line in lines:
-            # first see if we're already copying use `end_pattern` as a flag
-            if end_pattern:
-                if re.search(end_pattern, line):
-                    end_pattern = None
-                else:
-                    output_lines.append(line)
-            else:
-                matchObj = re.match(function_pattern, line)
-                if matchObj:
-                    function_found = True
-                    output_lines.append(line)
-                    end_pattern = r"^ {0,%d}\w" % len(matchObj.group(1))
+        with open(source_name) as f:
+            source_text = f.read()
 
-        if not function_found:
+        code = find_in_source(source_text, function_name)
+        if not code:
             raise Exception(f"Function not found: {function_name}")
+
+        output_lines = code.splitlines(keepends=True)
         self._strip_trailing_blanks(output_lines)
         output_lines = left_justify(output_lines)
         self._add_filename(filename, source, output_lines)
@@ -153,9 +167,7 @@ def left_justify(lines):
     line so that at least one line is left-justified.
     WARNING: this will fail on mixed tabs and spaces. Don't do that.
     """
-    leads = [
-        len(line) - len(line.lstrip()) for line in lines if len(line.strip())
-    ]
+    leads = [len(line) - len(line.lstrip()) for line in lines if len(line.strip())]
     if not leads:  # degenerate case where there are only blank lines
         return lines
     min_lead = min(leads)
@@ -237,14 +249,9 @@ def process_template(template):
 
 
 @click.command(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.option("-v", "--verbose", is_flag=True, help="Verbose debugging info")
 @click.option(
-    "-v", "--verbose", is_flag=True, help="Verbose debugging info"
-)
-@click.option(
-    "-c",
-    "--clip",
-    is_flag=True,
-    help="RealPython output to clipboard",
+    "-c", "--clip", is_flag=True, help="RealPython output to clipboard",
 )
 @click.argument("template", type=str)
 def main(verbose, clip, template):

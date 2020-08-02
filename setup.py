@@ -29,6 +29,7 @@ setup(
     packages=[NAME],
     include_package_data=False,
     install_requires=[
+        "asttokens==2.0.4",
         "Click==7.1.2", 
         "Jinja2==2.11.2",
         "pyperclip==1.8.0",

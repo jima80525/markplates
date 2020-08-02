@@ -107,7 +107,9 @@ Examples:
 
 ### `import_function()`
 
-The `inport_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
+The `import_function` function searches a source file for the named function, class, class method or assigned variable. The function name supports dot-references, for example to get at the class method `area()` inside the class `Sqaure`, the function name would be "Square.area". To retrieve a nested function, name both the parent and child function, for example "outer.inner". 
+
+The first piece of code matching the given name is returned, (and you shouldn't have multiple things with the same name anyway!). The source file is parsed, not loaded, so no import side-effects take place.
 
 Whitespace following the function will not be included.
 
@@ -118,7 +120,7 @@ Examples:
 ```
 
 
-`MarkPlates` handles nested functions, included any functions nested in the specified function. The `language` and `filename` parameters are treated the same way they are in `import_source()`.
+The `language` and `filename` parameters are treated the same way they are in `import_source()`.
 
 ### `import_repl()`
 
