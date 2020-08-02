@@ -28,6 +28,10 @@ setup(
     ],
     packages=[NAME],
     include_package_data=False,
-    install_requires=["Click", "Jinja2"],
+    install_requires=[
+        "Click==7.1.2", 
+        "Jinja2==2.11.2",
+        "pyperclip==1.8.0",
+    ],
     entry_points={"console_scripts": ["markplates=markplates.__main__:main"]},
 )
