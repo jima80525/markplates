@@ -107,7 +107,7 @@ Examples:
 
 ### `import_function()`
 
-The `inport_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
+The `import_function` function will search the source file and include only the specified function. If there are multiple functions with the same name in the source_file, only the first will be included (and you shouldn't have multiple functions with the same name anyway!).
 
 Whitespace following the function will not be included.
 
