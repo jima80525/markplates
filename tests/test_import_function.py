@@ -1,221 +1,68 @@
 import markplates
+from pathlib import Path
 import pytest
 
 
+def __load_source():
+    source_file = Path(__file__).parent.resolve() / "data/source.py"
+    with open(source_file) as f:
+        source_content = f.read()
+
+    source = source_content.splitlines(keepends=True)
+    return source_file, source
+
+
 def test_import_func(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
+    source_file, source = __load_source()
+    expected = ("".join(source[9:12])).rstrip()
 
-
-    def second(arg, arg2):
-        code
-        pass
-
-
-
-    def third(arg1, 2):
-        pass
-    """
-    # must match simple_source
-    expected_result = """def second(arg, arg2):
-    code
-    pass"""
-
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
-        % (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "area") }}'
+        % (source_file.parent, source_file.name)
     )
     fred = markplates.process_template(template)
-    print(fred)
-    assert fred == expected_result
-
-
-def test_import_func_prefix(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
-
-
-    def second_longer(arg, arg2):
-        not right
-        pass
-        
-        
-    def second(arg, arg2):
-        code
-        pass
-
-
-
-    def third(arg1, 2):
-        pass
-    
-    """
-    # must match simple_source
-    expected_result = """def second(arg, arg2):
-    code
-    pass"""
-
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
-    template = tmp_path / "t_import.mdt"
-    template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
-        % (tmp_path, file_name)
-    )
-    result = markplates.process_template(template)
-    assert result == expected_result
+    assert fred == expected
 
 
 def test_import_bad_name(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
-    def second(arg, arg2):
-        code
-        pass
-    def third(arg1, 2):
-        pass
-    """
+    source_file, source = __load_source()
+
     # must match simple_source
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
         '{{ set_path("%s") }}{{ import_function("%s", "not_present") }}'
-        % (tmp_path, file_name)
+        % (source_file.parent, source_file.name)
     )
     with pytest.raises(Exception):
         markplates.process_template(template)
 
 
-def test_import_no_spacing(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
-    def second(arg, arg2):
-        code
-        pass
-    def third(arg1, 2):
-        pass
-    """
-    # must match simple_source
-    expected_result = """def second(arg, arg2):
-    code
-    pass"""
-
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
-    template = tmp_path / "t_import.mdt"
-    template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
-        % (tmp_path, file_name)
-    )
-    fred = markplates.process_template(template)
-    print(fred)
-    assert fred == expected_result
-
-
-def test_import_different_levels(tmp_path):
-    """ Test finding the end of a function when the next logical block is at a
-    lower level of indentation. """
-    simple_source = """
-class fred():
-    def function1(self):
-        pass
-        # more stuff here
-        #
-        #
-
-    def second(arg, arg2):
-        code
-        pass
-
-def higher_scope(stuff):
-    with session.get(url) as response:
-        print(f"Read {len(response.content)} from {url}")
-"""
-    # must match simple_source
-    expected_result = """def second(arg, arg2):
-    code
-    pass"""
-
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
-    template = tmp_path / "t_import.mdt"
-    template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second") }}'
-        % (tmp_path, file_name)
-    )
-    fred = markplates.process_template(template)
-    print(fred)
-    assert fred == expected_result
-
-
 def test_add_filename(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
-    def second(arg, arg2):
-        code
-        pass
-    def third(arg1, 2):
-        pass
-    """
-    # must match simple_source
-    expected_result = """# fake_source.py
-def second(arg, arg2):
-    code
-    pass"""
+    source_file, source = __load_source()
+    expected = ("".join(source[9:12])).rstrip()
+    expected = "# source.py\n" + expected
 
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second", None, True) }}'
-        % (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "area", None, True) }}'
+        % (source_file.parent, source_file.name)
     )
     fred = markplates.process_template(template)
-    assert fred == expected_result
+    assert fred == expected
 
 
 # a more complete test of languages is in import_source tests.  It uses the
 # same underlying function so we won't retest all of it here.
 def test_add_language(tmp_path):
-    simple_source = """
-    def first(arg):
-        pass
-    def second(arg, arg2):
-        code
-        pass
-    def third(arg1, 2):
-        pass
-    """
-    # must match simple_source
-    expected_result = """```python
-def second(arg, arg2):
-    code
-    pass
-```"""
+    source_file, source = __load_source()
+    expected = "".join(source[9:12])
+    expected = "```python\n" + expected + "```"
 
-    file_name = "fake_source.py"
-    source_file = tmp_path / file_name
-    source_file.write_text(simple_source)
     template = tmp_path / "t_import.mdt"
     template.write_text(
-        '{{ set_path("%s") }}{{ import_function("%s", "second", "Python", False) }}'
-        % (tmp_path, file_name)
+        '{{ set_path("%s") }}{{ import_function("%s", "area", "Python", False) }}'
+        % (source_file.parent, source_file.name)
     )
     fred = markplates.process_template(template)
-    print(fred)
-    assert fred == expected_result
+    assert fred == expected
