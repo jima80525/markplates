@@ -170,10 +170,15 @@ Line number ranges allow you to specify which lines you want to include from the
 
 > **Note:** LINE NUMBERING STARTS AT 1!
 
+### Copy to Clipboard
+
+The `-c` option will copy most of the output to the clipboard.  The first two lines are skipped, which generally are the `h1` title and the following blank line.  This is done to simplify copying the output to the Real Python CMS system.
+
 ## Features to Come
 
 I'd like to add:
 
+* Developer Instructions
 * Capturing the results of a shell command and inserting into the file
 * Running `black` over the included Python source
 * Windows and Mac testing/support
@@ -184,8 +189,11 @@ Let me know!  If you're interested in the results or would like to help out, ple
 
 ## Release History
 
+* 1.5.0 Added `$` and `$-n` as valid line ranges. Fixed several bugs
+* 1.4.0 Added -c option, bug fixes
+* 1.3.0 Minor bug fixes
+* 1.2.0 Added `language` and `filename` options for `import_source` and `import_repl` methods
 * 1.1.0 Added `import_repl` functionality
-
 * 1.0.0 Initial release
 
 License plate graphic thanks to [ACME License Maker](https://www.acme.com/licensemaker/)

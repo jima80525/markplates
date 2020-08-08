@@ -14,5 +14,5 @@ def area(length, width):
 
 my_squares = [
     Square(1, 1),
-    Square(2, 2),   # twice as much square
+    Square(2, 2),  # twice as much square
 ]

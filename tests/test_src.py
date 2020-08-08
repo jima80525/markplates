@@ -8,14 +8,14 @@ def test_find_source():
     with open(p) as f:
         source = f.read()
 
-    code = find_in_source(source, 'area')
+    code = find_in_source(source, "area")
     assert "area of a rectangle" in code
-    assert code.count('\n') == 3
+    assert code.count("\n") == 3
 
-    code = find_in_source(source, 'Square.area')
+    code = find_in_source(source, "Square.area")
     assert "Area of this square" in code
-    assert code.count('\n') == 3
+    assert code.count("\n") == 3
 
-    code = find_in_source(source, 'my_squares')
+    code = find_in_source(source, "my_squares")
     assert "twice as much" in code
-    assert code.count('\n') == 4
+    assert code.count("\n") == 4

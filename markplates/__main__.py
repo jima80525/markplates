@@ -50,7 +50,9 @@ class TemplateState:
     def set_path(self, path):
         self.path = pathlib.Path(path)
         if not self.path.is_dir():
-            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.path)
+            raise FileNotFoundError(
+                errno.ENOENT, os.strerror(errno.ENOENT), self.path
+            )
         return ""
 
     def _add_filename(self, to_add, source, lines):
@@ -86,7 +88,9 @@ class TemplateState:
         self._add_language(language, lines)
         return "".join(lines).rstrip()
 
-    def import_function(self, source, function_name, language=None, filename=False):
+    def import_function(
+        self, source, function_name, language=None, filename=False
+    ):
         """ Search for and extract a function.  Uses VERY simplistic processing
         for this, so I"m concerned this will not play out as well as hoped.
         Basically searches for "def <function>` and then copies all but the
@@ -167,7 +171,9 @@ def left_justify(lines):
     line so that at least one line is left-justified.
     WARNING: this will fail on mixed tabs and spaces. Don't do that.
     """
-    leads = [len(line) - len(line.lstrip()) for line in lines if len(line.strip())]
+    leads = [
+        len(line) - len(line.lstrip()) for line in lines if len(line.strip())
+    ]
     if not leads:  # degenerate case where there are only blank lines
         return lines
     min_lead = min(leads)
