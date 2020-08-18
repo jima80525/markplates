@@ -264,11 +264,24 @@ def main(verbose, clip, template):
     try:
         output = process_template(pathlib.Path(template))
         print(output)
+        sys.stdout.flush()
         if clip:
-            # copy lines to clipboard, but skip the first title and the subsequent blank line
+            # copy lines to clipboard, but skip the first title and the
+            # subsequent blank line
             lines = output.split("\n")
             to_clip = "\n".join(lines[2:])
-            pyperclip.copy(to_clip)
+
+            # NOTE: there seems to be a bug in pyperclip that is emitting output
+            # to stdout when the clipboard gets too large. Redirecting stdout
+            # to devnull seems to resolve the issue (along with the flush()
+            # above).  This is ugly, but works
+            fdnull = os.open(os.devnull, os.O_WRONLY)
+            os.dup2(fdnull, 1)
+            try:
+                pyperclip.copy(to_clip)
+            finally:
+                os.close(fdnull)
+
     except FileNotFoundError as e:
         print(f"Unable to import file:{e.filename}", file=sys.stderr)
         sys.exit(1)
