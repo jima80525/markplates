@@ -23,7 +23,7 @@ pluggy==0.13.1
 py==1.9.0
 pyperclip==1.8.0
 Pygments==2.7.1
-pytest==6.0.2
+pytest==6.1.0
 pytest-cov==2.10.1
 readme-renderer==26.0
 requests==2.24.0
@@ -31,7 +31,7 @@ requests-toolbelt==0.9.1
 six==1.15.0
 toml==0.10.1
 tox==3.20.0
-tqdm==4.49.0
+tqdm==4.50.0
 twine==3.2.0
 urllib3==1.25.10
 virtualenv==20.0.31
