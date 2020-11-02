@@ -29,7 +29,7 @@ readme-renderer==28.0
 requests==2.24.0
 requests-toolbelt==0.9.1
 six==1.15.0
-toml==0.10.1
+toml==0.10.2
 tox==3.20.1
 tqdm==4.51.0
 twine==3.2.0
