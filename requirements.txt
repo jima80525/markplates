@@ -6,7 +6,7 @@ black==20.8b1
 bleach==3.2.1
 bumpversion==0.6.0
 certifi==2020.12.5
-chardet==3.0.4
+chardet==4.0.0
 Click==7.1.2
 coverage==5.3
 coveralls==2.2.0
@@ -20,10 +20,10 @@ MarkupSafe==1.1.1
 more-itertools==8.6.0
 pkginfo==1.6.1
 pluggy==0.13.1
-py==1.9.0
+py==1.10.0
 pyperclip==1.8.1
 Pygments==2.7.3
-pytest==6.1.2
+pytest==6.2.0
 pytest-cov==2.10.1
 readme-renderer==28.0
 requests==2.25.0
