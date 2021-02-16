@@ -12,7 +12,4 @@ def area(length, width):
     return length * width
 
 
-my_squares = [
-    Square(1, 1),
-    Square(2, 2),  # twice as much square
-]
+my_squares = [Square(1, 1), Square(2, 2)]  # twice as much square

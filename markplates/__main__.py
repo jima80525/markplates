@@ -38,7 +38,15 @@ def _descend_tree(atok, parent, local_name, name_parts):
 
 
 def find_in_source(source, name):
-    atok = asttokens.ASTTokens(source, parse=True)
+    with open(source) as f:
+        source_text = f.read()
+
+    try:
+        atok = asttokens.ASTTokens(source_text, parse=True)
+    except SyntaxError as synErr:
+        print(f"Failed to parse {source}: {synErr}")
+        sys.exit(1)
+
     name_parts = name.split(".")
     return _descend_tree(atok, atok.tree, name_parts[0], name_parts[1:])
 
@@ -77,7 +85,7 @@ class TemplateState:
         if not ranges:
             ranges = ["2-$"]
 
-        lines = condense_ranges(lines, ranges)
+        lines = condense_ranges(lines, ranges, source_name)
         lines = remove_double_blanks(lines)
         # If the trailing line doesn't have a \n, add one here
         if lines and not lines[-1].endswith("\n"):
@@ -91,17 +99,9 @@ class TemplateState:
     def import_function(
         self, source, function_name, language=None, filename=False
     ):
-        """ Search for and extract a function.  Uses VERY simplistic processing
-        for this, so I"m concerned this will not play out as well as hoped.
-        Basically searches for "def <function>` and then copies all but the
-        trailing blank lines to the output.
-        If you have two functions of the same name, it will select the first.
-        """
+        """ Search for and extract a function."""
         source_name = self.path / source
-        with open(source_name) as f:
-            source_text = f.read()
-
-        code = find_in_source(source_text, function_name)
+        code = find_in_source(source_name, function_name)
         if not code:
             raise Exception(f"Function not found: {function_name}")
 
@@ -186,7 +186,7 @@ def left_justify(lines):
     return new_lines
 
 
-def condense_ranges(input_lines, ranges):
+def condense_ranges(input_lines, ranges, source_name):
     """ Takes a list of ranges and produces a sorted list of lines from the
     input file.
     Ranges can be in the following form:
@@ -224,18 +224,18 @@ def condense_ranges(input_lines, ranges):
                     # Start of range is a number
                     start = int(start)
                     # check for $ on end first
-                    if end.strip() == "$":
-                        end = len(input_lines)
-                    else:
-                        end = int(end)
-
+                    end = len(input_lines) if end.strip() == "$" else int(end)
                 # output_numbers.update(list(range(start, end+1)))
                 output_numbers.update(range(start, end + 1))
-    # now we have normalized the line numbers, create the list of output lines
-    output_lines = list()
-    for number in sorted(output_numbers):
-        output_lines.append(input_lines[number - 1])
-    return output_lines
+    output_numbers = sorted(output_numbers)
+    # fail if they explicitly requested beyond the end of the file
+    if len(input_lines) < output_numbers[-1]:
+        print(
+            f"Requested {output_numbers[-1]} lines from {source_name}. "
+            "Past end of file!"
+        )
+        sys.exit(1)
+    return [input_lines[number - 1] for number in output_numbers]
 
 
 def process_template(template):
@@ -255,7 +255,6 @@ def process_template(template):
 
 
 @click.command(context_settings=dict(help_option_names=["-h", "--help"]))
-@click.option("-v", "--verbose", is_flag=True, help="Verbose debugging info")
 @click.option(
     "-v", "--verbose", is_flag=True, help="Verbose debugging info"
 )
