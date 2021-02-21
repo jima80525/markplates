@@ -13,6 +13,10 @@ import re
 import sys
 import pyperclip
 
+# Global set from command line options. Don't know of a good way to pass options
+# through jinja2 to the functions being called from the template
+g_indicate_skipped_lines = False
+
 
 def _descend_tree(atok, parent, local_name, name_parts):
     for node in ast.iter_child_nodes(parent):
@@ -55,7 +59,9 @@ class TemplateState:
     def __init__(self):
         self.path = pathlib.Path(".")
 
-    def set_path(self, path):
+    def set_path(self, path, show_skipped=False):
+        global g_indicate_skipped_lines
+        g_indicate_skipped_lines = show_skipped
         self.path = pathlib.Path(path)
         if not self.path.is_dir():
             raise FileNotFoundError(
@@ -235,7 +241,27 @@ def condense_ranges(input_lines, ranges, source_name):
             "Past end of file!"
         )
         sys.exit(1)
-    return [input_lines[number - 1] for number in output_numbers]
+    if g_indicate_skipped_lines:
+        output = []
+        for index, line_number in enumerate(output_numbers):
+            line = input_lines[line_number - 1]
+            output.append(line)
+            if (
+                index + 1 < len(output_numbers)
+                and output_numbers[index + 1] - output_numbers[index] > 2
+            ):
+                if len(input_lines[line_number - 2]) != 0:
+                    output.append("\n")
+
+                num_indent = len(line) - len(line.lstrip())
+                prefix = " " * num_indent
+                output.append(f"{prefix}# ...\n")
+                if len(input_lines[line_number]) != 0:
+                    output.append("\n")
+    else:
+        output = [input_lines[number - 1] for number in output_numbers]
+
+    return output
 
 
 def process_template(template):
@@ -255,14 +281,9 @@ def process_template(template):
 
 
 @click.command(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.option("-v", "--verbose", is_flag=True, help="Verbose debugging info")
 @click.option(
-    "-v", "--verbose", is_flag=True, help="Verbose debugging info"
-)
-@click.option(
-    "-c",
-    "--clip",
-    is_flag=True,
-    help="RealPython output to clipboard",
+    "-c", "--clip", is_flag=True, help="RealPython output to clipboard"
 )
 @click.argument("template", type=str)
 def main(verbose, clip, template):

@@ -42,7 +42,7 @@ To use on your own project create a markdown document with special tags to indic
 
 `Markplates` supports these functions:
 
-*  `set_path("path/to/source/files")`
+*  `set_path("path/to/source/files", [show_skipped_section_marker])`
 * `import_source("source_file_name", [list of line number ranges], language=None, filename=False)`
 * `import_function("source_file_name", "function_name", language=None, filename=False)`
 * `import_repl("code to run in repl")`
@@ -63,6 +63,12 @@ Examples:
 ' }}
 The `set_path()` command is not required as all other functions will take full paths to files.
 
+This command takes an optional `show_skipped_section_marker` parameter which defaults to `False`.  When set to true, if a template expansion shows disjoint sections of a file which are separated by 2 or more lines, that gap will be shown in the output with a marker line:
+
+​	`# ...`
+
+This option defaults to false to not break backward compatibility.
+
 ### `import_source()`
 
 The `import_source()` function will pull in the contents of a source file.  Optional line number ranges can be specified (see description below). The filename must be in quotes.
@@ -75,9 +81,9 @@ Examples:
 {{import_source("__main__.py")}} # includes all but line 1 from `__main__.py` file
 {{import_source("__main__.py", ["1-$",])}} # imports all lines from `__main__.py`
 {{import_source("__main__.py", [1, "3", "5-$"])}} # imports all lines except lines 2 and 4 from `__main__.py`
-{{import_source("__main__.py", language="python", filename=True)}} 
-# includes all but line 1 from `__main__.py` file, puts the 
-# contents in a python block with the filename as a comment in 
+{{import_source("__main__.py", language="python", filename=True)}}
+# includes all but line 1 from `__main__.py` file, puts the
+# contents in a python block with the filename as a comment in
 # the first line of the block.
 ```
 ' }}
@@ -86,7 +92,7 @@ Examples:
 
 ### `import_function()`
 
-The `import_function` function searches a source file for the named function, class, class method or assigned variable. The function name supports dot-references, for example to get at the class method `area()` inside the class `Sqaure`, the function name would be "Square.area". To retrieve a nested function, name both the parent and child function, for example "outer.inner". 
+The `import_function` function searches a source file for the named function, class, class method or assigned variable. The function name supports dot-references, for example to get at the class method `area()` inside the class `Sqaure`, the function name would be "Square.area". To retrieve a nested function, name both the parent and child function, for example "outer.inner".
 
 The first piece of code matching the given name is returned, (and you shouldn't have multiple things with the same name anyway!). The source file is parsed, not loaded, so no import side-effects take place.
 
@@ -168,6 +174,7 @@ Let me know!  If you're interested in the results or would like to help out, ple
 
 ## Release History
 
+* 1.6.0 Add `show_skipped` option to `set_path()` and improved error reporting
 * 1.5.0 Added `$` and `$-n` as valid line ranges. Fixed several bugs
 * 1.4.0 Added -c option, bug fixes
 * 1.3.0 Minor bug fixes

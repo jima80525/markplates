@@ -5,8 +5,6 @@ from markplates.__main__ import find_in_source
 
 def test_find_source():
     p = Path(__file__).resolve().parent / "data/source.py"
-    # with open(p) as f:
-        # source = f.read()
 
     code = find_in_source(p, "area")
     assert "area of a rectangle" in code
