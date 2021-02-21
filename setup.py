@@ -11,7 +11,7 @@ NAME = "markplates"
 # This call to setup() does all the work
 setup(
     name=NAME,
-    version="1.4.0",
+    version="1.5.0",
     description="Inject code snippets into your Markdown docs",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -29,7 +29,8 @@ setup(
     packages=[NAME],
     include_package_data=False,
     install_requires=[
-        "Click==7.1.2", 
+        "asttokens==2.0.4",
+        "Click==7.1.2",
         "Jinja2==2.11.2",
         "pyperclip==1.8.0",
     ],
