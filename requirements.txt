@@ -21,7 +21,7 @@ more-itertools==8.7.0
 pkginfo==1.7.0
 pluggy==0.13.1
 py==1.10.0
-pyperclip==1.8.1
+pyperclip==1.8.2
 Pygments==2.8.0
 pytest==6.2.2
 pytest-cov==2.11.1
@@ -30,8 +30,8 @@ requests==2.25.1
 requests-toolbelt==0.9.1
 six==1.15.0
 toml==0.10.2
-tox==3.21.4
-tqdm==4.56.2
+tox==3.22.0
+tqdm==4.57.0
 twine==3.3.0
 urllib3==1.26.3
 virtualenv==20.4.2
