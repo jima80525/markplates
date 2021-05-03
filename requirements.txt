@@ -22,7 +22,7 @@ pkginfo==1.7.0
 pluggy==0.13.1
 py==1.10.0
 pyperclip==1.8.2
-Pygments==2.8.1
+Pygments==2.9.0
 pytest==6.2.3
 pytest-cov==2.11.1
 readme-renderer==29.0
