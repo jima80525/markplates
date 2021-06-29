@@ -264,13 +264,24 @@ def condense_ranges(input_lines, ranges, source_name):
     return output
 
 
-def process_template(template):
+def process_template(template, square):
     # alias the block start and stop strings as they conflict with the
     # templating on RealPython.  Currently these are unused here.
     file_loader = jinja2.FileSystemLoader(str(template.parent))
-    env = jinja2.Environment(
-        loader=file_loader, block_start_string="&&&&", block_end_string="&&&&"
-    )
+
+    kwargs = {
+        "loader":file_loader, 
+        "block_start_string":"&&&&", 
+        "block_end_string":"&&&&"
+    }
+
+    if square:
+        kwargs.update({
+            'variable_start_string':'[[',
+            'variable_end_string':']]',
+        })
+
+    env = jinja2.Environment(**kwargs)
     template = env.get_template(str(template.name))
 
     template_state = TemplateState()
@@ -285,10 +296,13 @@ def process_template(template):
 @click.option(
     "-c", "--clip", is_flag=True, help="RealPython output to clipboard"
 )
+@click.option(
+    "-s", "--square", is_flag=True, help="Use [[ ]] for template tags"
+)
 @click.argument("template", type=str)
-def main(verbose, clip, template):
+def main(verbose, clip, square, template):
     try:
-        output = process_template(pathlib.Path(template))
+        output = process_template(pathlib.Path(template), square)
         print(output)
         sys.stdout.flush()
         if clip:

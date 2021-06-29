@@ -159,6 +159,12 @@ Line number ranges allow you to specify which lines you want to include from the
 
 The `-c` option will copy most of the output to the clipboard.  The first two lines are skipped, which generally are the `h1` title and the following blank line.  This is done to simplify copying the output to the Real Python CMS system.
 
+### Square Brackets
+
+The `-s` / `--square` option tells the parser to use `[[` and `]]` as the
+function delimiters. Instead of `{{ ' {{ import_function("foo", "bar")
+}} ' }}`, use `[[ import_function("foo", "bar") ]]`.
+
 ## Features to Come
 
 I'd like to add:
