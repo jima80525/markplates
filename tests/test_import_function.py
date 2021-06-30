@@ -21,7 +21,7 @@ def test_import_func(tmp_path):
         '{{ set_path("%s") }}{{ import_function("%s", "area") }}'
         % (source_file.parent, source_file.name)
     )
-    fred = markplates.process_template(template)
+    fred = markplates.process_template(template, False)
     assert fred == expected
 
 
@@ -35,7 +35,7 @@ def test_import_bad_name(tmp_path):
         % (source_file.parent, source_file.name)
     )
     with pytest.raises(Exception):
-        markplates.process_template(template)
+        markplates.process_template(template, False)
 
 
 def test_add_filename(tmp_path):
@@ -48,7 +48,7 @@ def test_add_filename(tmp_path):
         '{{ set_path("%s") }}{{ import_function("%s", "area", None, True) }}'
         % (source_file.parent, source_file.name)
     )
-    fred = markplates.process_template(template)
+    fred = markplates.process_template(template, False)
     assert fred == expected
 
 
@@ -64,5 +64,5 @@ def test_add_language(tmp_path):
         '{{ set_path("%s") }}{{ import_function("%s", "area", "Python", False) }}'
         % (source_file.parent, source_file.name)
     )
-    fred = markplates.process_template(template)
+    fred = markplates.process_template(template, False)
     assert fred == expected

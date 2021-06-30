@@ -24,7 +24,7 @@ def test_successful_path_in_main(tmp_path):
     """ Being anal retentive here to get the last line covered. :) """
     template = tmp_path / "good_path.mdt"
     template.write_text("just normal text")
-    markplates.process_template(template)
+    markplates.process_template(template, False)
     runner = click.testing.CliRunner()
     result = runner.invoke(markplates.main, [str(template)])
     assert result.exit_code == 0

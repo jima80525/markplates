@@ -17,7 +17,7 @@ def process(tmp_path, lines, language=None, filename=False):
         '{{ set_path("%s") }}{{ import_source("%s", ["1-$"], %s, %s) }}'
         % (tmp_path, file_name, language, filename)
     )
-    return markplates.process_template(template)
+    return markplates.process_template(template, False)
 
 
 def test_import_full(tmp_path, counting_lines):
@@ -32,7 +32,7 @@ def test_import_full(tmp_path, counting_lines):
     template.write_text(
         '{{ set_path("%s") }}{{ import_source("%s") }}' % (tmp_path, file_name)
     )
-    fred = markplates.process_template(template)
+    fred = markplates.process_template(template, False)
     assert fred == expected_result
 
 
@@ -49,7 +49,7 @@ def test_import_partial(tmp_path, counting_lines):
         '{{ set_path("%s") }}{{ import_source("%s", ["3-5"]) }}'
         % (tmp_path, file_name)
     )
-    fred = markplates.process_template(template)
+    fred = markplates.process_template(template, False)
     assert fred == expected_result
 
 
