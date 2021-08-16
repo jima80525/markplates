@@ -22,7 +22,7 @@ pkginfo==1.7.1
 pluggy==0.13.1
 py==1.10.0
 pyperclip==1.8.2
-Pygments==2.9.0
+Pygments==2.10.0
 pytest==6.2.4
 pytest-cov==2.12.1
 readme-renderer==29.0
@@ -31,8 +31,8 @@ requests-toolbelt==0.9.1
 six==1.16.0
 toml==0.10.2
 tox==3.24.1
-tqdm==4.62.0
+tqdm==4.62.1
 twine==3.4.2
 urllib3==1.26.6
-virtualenv==20.7.1
+virtualenv==20.7.2
 webencodings==0.5.1
