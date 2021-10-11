@@ -24,7 +24,7 @@ py==1.10.0
 pyperclip==1.8.2
 Pygments==2.10.0
 pytest==6.2.5
-pytest-cov==2.12.1
+pytest-cov==3.0.0
 readme-renderer==29.0
 requests==2.26.0
 requests-toolbelt==0.9.1
