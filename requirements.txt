@@ -2,7 +2,7 @@ asttokens==2.0.5
 appdirs==1.4.4
 atomicwrites==1.4.0
 attrs==21.2.0
-black==21.11b1
+black==21.12b0
 bleach==4.1.0
 bumpversion==0.6.0
 certifi==2021.10.8
@@ -18,7 +18,7 @@ invoke==1.6.0
 Jinja2==3.0.3
 MarkupSafe==2.0.1
 more-itertools==8.12.0
-pkginfo==1.8.1
+pkginfo==1.8.2
 pluggy==1.0.0
 py==1.11.0
 pyperclip==1.8.2
@@ -32,7 +32,7 @@ six==1.16.0
 toml==0.10.2
 tox==3.24.4
 tqdm==4.62.3
-twine==3.6.0
+twine==3.7.0
 urllib3==1.26.7
 virtualenv==20.10.0
 webencodings==0.5.1
