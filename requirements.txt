@@ -30,7 +30,7 @@ requests==2.27.0
 requests-toolbelt==0.9.1
 six==1.16.0
 toml==0.10.2
-tox==3.24.4
+tox==3.24.5
 tqdm==4.62.3
 twine==3.7.1
 urllib3==1.26.7
