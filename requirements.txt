@@ -7,7 +7,7 @@ bleach==4.1.0
 bumpversion==0.6.0
 certifi==2021.10.8
 chardet==4.0.0
-Click==8.0.1
+Click==8.0.4
 coverage==5.5
 coveralls==3.1.0
 docopt==0.6.2
