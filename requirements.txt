@@ -3,7 +3,7 @@ appdirs==1.4.4
 atomicwrites==1.4.0
 attrs==21.4.0
 black==22.3.0
-bleach==4.1.0
+bleach==5.0.0
 bumpversion==0.6.0
 certifi==2021.10.8
 chardet==4.0.0
@@ -30,9 +30,9 @@ requests==2.27.1
 requests-toolbelt==0.9.1
 six==1.16.0
 toml==0.10.2
-tox==3.24.5
+tox==3.25.0
 tqdm==4.64.0
 twine==4.0.0
 urllib3==1.26.9
-virtualenv==20.14.0
+virtualenv==20.14.1
 webencodings==0.5.1
