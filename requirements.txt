@@ -18,7 +18,7 @@ invoke==1.7.1
 Jinja2==3.1.2
 MarkupSafe==2.1.1
 more-itertools==8.13.0
-pkginfo==1.8.2
+pkginfo==1.8.3
 pluggy==1.0.0
 py==1.11.0
 pyperclip==1.8.2
