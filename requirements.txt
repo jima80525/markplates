@@ -1,6 +1,6 @@
 asttokens==2.0.5
 appdirs==1.4.4
-atomicwrites==1.4.0
+atomicwrites==1.4.1
 attrs==21.4.0
 black==22.6.0
 bleach==5.0.1
