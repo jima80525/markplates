@@ -33,6 +33,6 @@ toml==0.10.2
 tox==3.25.1
 tqdm==4.64.0
 twine==4.0.1
-urllib3==1.26.10
+urllib3==1.26.11
 virtualenv==20.15.1
 webencodings==0.5.1
