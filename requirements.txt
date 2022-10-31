@@ -1,4 +1,4 @@
-asttokens==2.0.8
+asttokens==2.1.0
 appdirs==1.4.4
 atomicwrites==1.4.1
 attrs==22.1.0
