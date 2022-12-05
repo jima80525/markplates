@@ -32,7 +32,7 @@ six==1.16.0
 toml==0.10.2
 tox==3.27.1
 tqdm==4.64.1
-twine==4.0.1
+twine==4.0.2
 urllib3==1.26.13
 virtualenv==20.17.0
 webencodings==0.5.1
