@@ -47,12 +47,12 @@ jobs:
             . venv/bin/activate
             tox
 
-      - run:
-          name: run coverage tests
-          command: |
-            . venv/bin/activate
-            inv test
-            coveralls
+      # - run:
+          # name: run coverage tests
+          # command: |
+            # . venv/bin/activate
+            # inv test
+            # coveralls
 
       - store_artifacts:
           path: test-reports

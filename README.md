@@ -4,9 +4,11 @@
 
 > A templating utility for keeping code included in Markdown documents in sync with the original source.
 
-[![CircleCI](https://circleci.com/gh/jima80525/markplates.svg?style=svg)](https://circleci.com/gh/jima80525/markplates) ![black](https://img.shields.io/badge/code%20style-black-000000.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![pyup.io](https://pyup.io/repos/github/jima80525/markplates/shield.svg)](https://pyup.io/account/repos/github/jima80525/markplates/) [![PyPI version](https://badge.fury.io/py/markplates.svg)](https://badge.fury.io/py/markplates) [![Coverage Status](https://coveralls.io/repos/github/jima80525/markplates/badge.svg?branch=master)](https://coveralls.io/github/jima80525/markplates?branch=master)
+[![CircleCI](https://circleci.com/gh/jima80525/markplates.svg?style=svg)](https://circleci.com/gh/jima80525/markplates) ![black](https://img.shields.io/badge/code%20style-black-000000.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![pyup.io](https://pyup.io/repos/github/jima80525/markplates/shield.svg)](https://pyup.io/account/repos/github/jima80525/markplates/) [![PyPI version](https://badge.fury.io/py/markplates.svg)](https://badge.fury.io/py/markplates) 
 
 The problem I hope to solve is to simplify keeping external files up to date with markdown documents that contain them. This happens to me frequently when an editor makes a suggestion to an article that will modify the underlying code it is quoting.
+
+> **NOTE:** This project is not under active development but should still be functional. In early 2023 there were some new incompatibilities between CircleCI and Coveralls which I did not resolve, I merely commented out the code coverage section of the `config.yml` file for CircleCI. If (or when) this project starts seeing active development again, some sort of code coverage should be reinstated.  
 
 ## Installing
 
