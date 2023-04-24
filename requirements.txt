@@ -23,7 +23,7 @@ pluggy==1.0.0
 py==1.11.0
 pyperclip==1.8.2
 Pygments==2.15.1
-pytest==7.3.0
+pytest==7.3.1
 pytest-cov==4.0.0
 readme-renderer==37.3
 requests==2.28.2
