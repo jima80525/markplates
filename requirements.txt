@@ -2,7 +2,7 @@ asttokens==2.4.1
 appdirs==1.4.4
 atomicwrites==1.4.1
 attrs==23.1.0
-black==23.10.1
+black==23.11.0
 bleach==6.1.0
 bumpversion==0.6.0
 certifi==2023.7.22
@@ -31,6 +31,6 @@ toml==0.10.2
 tox==4.11.3
 tqdm==4.66.1
 twine==4.0.2
-urllib3==2.0.7
+urllib3==2.1.0
 virtualenv==20.24.6
 webencodings==0.5.1
