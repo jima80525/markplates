@@ -5,7 +5,7 @@ attrs==23.1.0
 black==23.11.0
 bleach==6.1.0
 bumpversion==0.6.0
-certifi==2023.7.22
+certifi==2023.11.17
 chardet==5.2.0
 Click==8.1.7
 coverage==7.3.2
