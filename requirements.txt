@@ -28,9 +28,9 @@ requests==2.31.0
 requests-toolbelt==1.0.0
 six==1.16.0
 toml==0.10.2
-tox==4.11.3
+tox==4.11.4
 tqdm==4.66.1
 twine==4.0.2
 urllib3==2.1.0
-virtualenv==20.24.7
+virtualenv==20.25.0
 webencodings==0.5.1
