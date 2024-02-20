@@ -2,7 +2,7 @@ asttokens==2.4.1
 appdirs==1.4.4
 atomicwrites==1.4.1
 attrs==23.2.0
-black==24.1.1
+black==24.2.0
 bleach==6.1.0
 bumpversion==0.6.0
 certifi==2024.2.2
@@ -22,15 +22,15 @@ pluggy==1.4.0
 py==1.11.0
 pyperclip==1.8.2
 Pygments==2.17.2
-pytest==8.0.0
+pytest==8.0.1
 pytest-cov==4.1.0
 requests==2.31.0
 requests-toolbelt==1.0.0
 six==1.16.0
 toml==0.10.2
-tox==4.12.1
+tox==4.13.0
 tqdm==4.66.2
 twine==5.0.0
-urllib3==2.2.0
+urllib3==2.2.1
 virtualenv==20.25.0
 webencodings==0.5.1
