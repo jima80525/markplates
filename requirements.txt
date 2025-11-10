@@ -2,7 +2,7 @@ asttokens==3.0.0
 appdirs==1.4.4
 atomicwrites==1.4.1
 attrs==25.4.0
-black==25.9.0
+black==25.11.0
 bleach==6.3.0
 bumpversion==0.6.0
 certifi==2025.10.5
