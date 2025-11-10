@@ -22,7 +22,7 @@ pluggy==1.6.0
 py==1.11.0
 pyperclip==1.11.0
 Pygments==2.19.2
-pytest==8.4.2
+pytest==9.0.0
 pytest-cov==7.0.0
 requests==2.32.5
 requests-toolbelt==1.0.0
