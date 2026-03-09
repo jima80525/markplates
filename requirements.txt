@@ -29,7 +29,7 @@ requests-toolbelt==1.0.0
 six==1.17.0
 toml==0.10.2
 tox==4.49.0
-tqdm==4.67.1
+tqdm==4.67.3
 twine==6.2.0
 urllib3==2.6.2
 virtualenv==20.35.4
