@@ -31,7 +31,7 @@ setup(
     install_requires=[
         "asttokens==2.0.4",
         "Click==7.1.2",
-        "Jinja2==2.11.3",
+        "Jinja2==3.1.3",
         "pyperclip==1.8.0",
     ],
     entry_points={"console_scripts": ["markplates=markplates.__main__:main"]},
