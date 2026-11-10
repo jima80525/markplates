@@ -29,3 +29,20 @@ def test_successful_path_in_main(tmp_path):
     result = runner.invoke(markplates.main, [str(template)])
     assert result.exit_code == 0
     assert result.output == "just normal text\n"
+
+
+def test_unknown_function_from_main(tmp_path):
+    """ Unknown function is a clean CLI error, not a traceback. """
+    source_file = tmp_path / "source.py"
+    source_file.write_text("def area(x):\n    return x\n")
+    template = tmp_path / "unknown_func.mdt"
+    template.write_text(
+        '{{ set_path("%s") }}{{ import_function("%s", "not_present") }}'
+        % (tmp_path.as_posix(), source_file.name)
+    )
+    runner = click.testing.CliRunner()
+    result = runner.invoke(markplates.main, [str(template)])
+    assert result.exit_code == 1
+    assert isinstance(result.exception, SystemExit)
+    assert result.output.startswith("Unable to import function:")
+    assert "Traceback" not in result.output
