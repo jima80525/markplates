@@ -109,7 +109,7 @@ class TemplateState:
         source_name = self.path / source
         code = find_in_source(source_name, function_name)
         if not code:
-            raise Exception(f"Function not found: {function_name}")
+            raise LookupError(f"Function not found: {function_name}")
 
         output_lines = code.splitlines(keepends=True)
         self._strip_trailing_blanks(output_lines)
@@ -327,4 +327,7 @@ def main(verbose, clip, square, template):
         sys.exit(1)
     except jinja2.exceptions.TemplateNotFound as e:
         print(f"Unable to import file:{e}", file=sys.stderr)
+        sys.exit(1)
+    except LookupError as e:
+        print(f"Unable to import function: {e}", file=sys.stderr)
         sys.exit(1)
